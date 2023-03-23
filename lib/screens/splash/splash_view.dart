@@ -1,8 +1,8 @@
+import 'package:e_commerce/constants/app_fonts.dart';
 import 'package:e_commerce/constants/color_constants.dart';
 import 'package:e_commerce/constants/string_constants.dart';
 import 'package:e_commerce/screens/home/home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({
@@ -24,7 +24,7 @@ class _SplashViewState extends State<SplashView> {
         isLoading = true;
       });
     });
-    Future.delayed(const Duration(milliseconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const HomeView(),
@@ -35,15 +35,28 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
+    return screen(
+      children: [
+        appName,
+        animatedProgressIndigator,
+      ],
+    );
+  }
+
+  Material screen({required List<Widget> children}) {
     return Material(
       color: ColorConstants.primary[300],
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          appName,
-          animatedProgressIndigator,
-        ],
+        children: children,
       ),
+    );
+  }
+
+  Text get appName {
+    return Text(
+      StringConstants.appName,
+      style: AppFonts.headingMedium,
     );
   }
 
@@ -56,17 +69,6 @@ class _SplashViewState extends State<SplashView> {
         child: CircularProgressIndicator(
           color: ColorConstants.primary[100],
         ),
-      ),
-    );
-  }
-
-  Text get appName {
-    return Text(
-      StringConstants.appName,
-      style: GoogleFonts.poppins(
-        color: ColorConstants.black,
-        fontWeight: FontWeight.w600,
-        fontSize: 32,
       ),
     );
   }

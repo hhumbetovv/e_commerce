@@ -1,6 +1,9 @@
 enum AppIcons {
+  search('search'),
   add('add'),
   heart('heart'),
+  user('user'),
+  cart('cart'),
   bag('bag');
 
   const AppIcons(this.value);

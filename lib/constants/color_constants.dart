@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 class ColorConstants {
   const ColorConstants._();
 
+  static const MaterialColor primary = blue;
+
   static const Color black = Color(0xFF212121);
   static const Color white = Color(0xFFFFFFFF);
   static const MaterialColor grey = MaterialColor(
@@ -56,5 +58,4 @@ class ColorConstants {
       500: Color(0xFF4CAF50),
     },
   );
-  static const MaterialColor primary = blue;
 }
