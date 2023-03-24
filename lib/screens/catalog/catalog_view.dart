@@ -1,5 +1,4 @@
 import 'package:e_commerce/constants/app_fonts.dart';
-import 'package:e_commerce/constants/color_constants.dart';
 import 'package:e_commerce/constants/string_constants.dart';
 import 'package:e_commerce/screens/catalog/components/category_card.dart';
 import 'package:e_commerce/utilities/fake_data.dart';
@@ -19,11 +18,7 @@ class _CatalogViewState extends State<CatalogView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstants.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(

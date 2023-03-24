@@ -4,19 +4,13 @@ import 'package:e_commerce/utilities/random_photo_url.dart';
 class Faker {
   static List<CategoryModel> mainCategories = [
     CategoryModel(
-      title: 'Uşaq geyimləri',
+      title: 'Bütün Məhsullar',
       imageUrl: randomPhotoUrl(),
       subCategories: [],
       products: [],
     ),
     CategoryModel(
-      title: 'Qadın geyimləri',
-      imageUrl: randomPhotoUrl(),
-      subCategories: [],
-      products: [],
-    ),
-    CategoryModel(
-      title: 'Kişi geyimləri',
+      title: 'Yeni Məhsullar',
       imageUrl: randomPhotoUrl(),
       subCategories: [],
       products: [],
@@ -35,6 +29,12 @@ class Faker {
     ),
     CategoryModel(
       title: 'Kişi geyimləri',
+      imageUrl: randomPhotoUrl(),
+      subCategories: [],
+      products: [],
+    ),
+    CategoryModel(
+      title: 'Sezonluq Geyimlər',
       imageUrl: randomPhotoUrl(),
       subCategories: [],
       products: [],

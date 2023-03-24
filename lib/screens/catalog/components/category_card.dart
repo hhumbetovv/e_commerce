@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/constants/app_fonts.dart';
 import 'package:e_commerce/constants/color_constants.dart';
 import 'package:e_commerce/models/category.dart';
+import 'package:e_commerce/screens/catalog/category_view.dart';
 import 'package:e_commerce/widgets/app_inkwell.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,13 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppInkWell.sparkle(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => CategoryView(category: category),
+          ),
+        );
+      },
       child: Container(
         height: 100,
         decoration: BoxDecoration(
