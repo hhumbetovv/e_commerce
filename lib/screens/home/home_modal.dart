@@ -1,5 +1,5 @@
 import 'package:e_commerce/enums/icons.dart';
-import 'package:e_commerce/screens/catalog/catalog_view.dart';
+import 'package:e_commerce/screens/categories/catalog_view.dart';
 import 'package:e_commerce/screens/favorites/favorites_view.dart';
 import 'package:e_commerce/screens/home/home_view.dart';
 import 'package:e_commerce/screens/profile/profile_view.dart';

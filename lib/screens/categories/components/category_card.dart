@@ -2,7 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/constants/app_fonts.dart';
 import 'package:e_commerce/constants/color_constants.dart';
 import 'package:e_commerce/models/category.dart';
-import 'package:e_commerce/screens/catalog/category_view.dart';
+import 'package:e_commerce/screens/categories/categories_view.dart';
+import 'package:e_commerce/screens/products/products_view.dart';
 import 'package:e_commerce/widgets/app_inkwell.dart';
 import 'package:flutter/material.dart';
 
@@ -14,16 +15,24 @@ class CategoryCard extends StatelessWidget {
 
   final CategoryModel category;
 
+  void cardOnTap(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          if (category.subCategories.isEmpty) {
+            return ProductsView(category: category);
+          }
+          return CategoriesView(category: category);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AppInkWell.sparkle(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => CategoryView(category: category),
-          ),
-        );
-      },
+    return AppInkWell(
+      type: InkType.sparkle,
+      onTap: () => cardOnTap(context),
       child: Container(
         height: 100,
         decoration: BoxDecoration(

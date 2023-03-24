@@ -1,6 +1,5 @@
 import 'package:e_commerce/constants/app_fonts.dart';
 import 'package:e_commerce/constants/color_constants.dart';
-import 'package:e_commerce/constants/string_constants.dart';
 import 'package:e_commerce/enums/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,7 +9,10 @@ import '../extensions/text_style_extension.dart';
 class Search extends StatelessWidget {
   const Search({
     Key? key,
+    required this.hintText,
   }) : super(key: key);
+
+  final String hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class Search extends StatelessWidget {
             fit: BoxFit.scaleDown,
             colorFilter: const ColorFilter.mode(ColorConstants.grey, BlendMode.srcIn),
           ),
-          hintText: StringConstants.searchHintText,
+          hintText: hintText,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(9),
             borderSide: BorderSide.none,

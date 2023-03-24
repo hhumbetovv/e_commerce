@@ -15,23 +15,28 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends HomeModal {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorConstants.white,
-      body: IndexedStack(
-        index: selectedIndex,
-        children: navigationItems.map((NavigationItem item) {
-          return Navigator(
-            key: item.key,
-            onGenerateRoute: (RouteSettings settings) {
-              return MaterialPageRoute(builder: (_) => item.widget);
-            },
-          );
-        }).toList(),
-      ),
-      bottomNavigationBar: BottomTabBar(
-        pageIndex: selectedIndex,
-        onChange: setIndex,
-        icons: navigationItems.map((NavigationItem item) => item.icon).toList(),
+    return WillPopScope(
+      onWillPop: () async {
+        return await navigationItems[selectedIndex].key.currentState?.maybePop() ?? false ? false : true;
+      },
+      child: Scaffold(
+        backgroundColor: ColorConstants.white,
+        body: IndexedStack(
+          index: selectedIndex,
+          children: navigationItems.map((NavigationItem item) {
+            return Navigator(
+              key: item.key,
+              onGenerateRoute: (RouteSettings settings) {
+                return MaterialPageRoute(builder: (_) => item.widget);
+              },
+            );
+          }).toList(),
+        ),
+        bottomNavigationBar: AppNavigationbar(
+          pageIndex: selectedIndex,
+          onChange: setIndex,
+          icons: navigationItems.map((NavigationItem item) => item.icon).toList(),
+        ),
       ),
     );
   }

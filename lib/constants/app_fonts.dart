@@ -7,7 +7,8 @@ class AppFonts {
   const AppFonts._();
 
   static const Color _defaultColor = ColorConstants.black;
-  static final TextStyle _appFont = GoogleFonts.sourceSansPro();
+  // static final TextStyle _appFont = GoogleFonts.sourceSansPro();
+  static final TextStyle _appFont = GoogleFonts.poppins();
 
   //! Heading
   static final TextStyle headingLarge = _appFont.copyWith(

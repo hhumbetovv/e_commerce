@@ -2,56 +2,48 @@ import 'package:e_commerce/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 
 class AppInkWell extends StatelessWidget {
-  const AppInkWell.ripple({
+  const AppInkWell({
     Key? key,
     required this.child,
     required this.onTap,
-    this.splashFactory = InkRipple.splashFactory,
-    this.color = ColorConstants.white,
-  }) : super(key: key);
-
-  const AppInkWell.sparkle({
-    Key? key,
-    required this.child,
-    required this.onTap,
-    this.splashFactory = InkSparkle.splashFactory,
-    this.color = ColorConstants.white,
-  }) : super(key: key);
-
-  const AppInkWell.splash({
-    Key? key,
-    required this.child,
-    required this.onTap,
-    this.splashFactory = InkSplash.splashFactory,
-    this.color = ColorConstants.white,
-  }) : super(key: key);
-
-  const AppInkWell.noSplash({
-    Key? key,
-    required this.child,
-    required this.onTap,
-    this.splashFactory = NoSplash.splashFactory,
-    this.color,
+    required this.type,
   }) : super(key: key);
 
   final Widget child;
-  final InteractiveInkFeatureFactory splashFactory;
-  final Color? color;
+  final InkType type;
   final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
+    final InteractiveInkFeatureFactory? splashFactory;
+
+    switch (type) {
+      case InkType.ripple:
+        splashFactory = InkRipple.splashFactory;
+        break;
+      case InkType.sparkle:
+        splashFactory = InkSparkle.splashFactory;
+        break;
+      case InkType.splash:
+        splashFactory = InkSplash.splashFactory;
+        break;
+      case InkType.noSplash:
+        splashFactory = null;
+        break;
+    }
+
     return Stack(
       clipBehavior: Clip.antiAlias,
       alignment: Alignment.center,
+      fit: StackFit.passthrough,
       children: [
         child,
         Positioned.fill(
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              highlightColor: color == null ? Colors.transparent : color?.withOpacity(0.4),
-              splashColor: color == null ? Colors.transparent : color?.withOpacity(0.4),
+              highlightColor: splashFactory == null ? Colors.transparent : ColorConstants.white.withOpacity(0.4),
+              splashColor: splashFactory == null ? Colors.transparent : ColorConstants.white.withOpacity(0.4),
               splashFactory: splashFactory,
               onTap: onTap,
             ),
@@ -60,4 +52,11 @@ class AppInkWell extends StatelessWidget {
       ],
     );
   }
+}
+
+enum InkType {
+  ripple,
+  sparkle,
+  splash,
+  noSplash,
 }

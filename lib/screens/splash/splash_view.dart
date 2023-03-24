@@ -53,10 +53,13 @@ class _SplashViewState extends State<SplashView> {
     );
   }
 
-  Text get appName {
-    return Text(
-      StringConstants.appName,
-      style: AppFonts.headingMedium,
+  Hero get appName {
+    return Hero(
+      tag: 'app-name',
+      child: Text(
+        StringConstants.appName,
+        style: AppFonts.headingMedium,
+      ),
     );
   }
 

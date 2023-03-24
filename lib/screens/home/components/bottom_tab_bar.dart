@@ -3,8 +3,8 @@ import 'package:e_commerce/widgets/app_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class BottomTabBar extends StatefulWidget {
-  const BottomTabBar({
+class AppNavigationbar extends StatefulWidget {
+  const AppNavigationbar({
     super.key,
     required this.icons,
     required this.pageIndex,
@@ -16,10 +16,10 @@ class BottomTabBar extends StatefulWidget {
   final Function(int index) onChange;
 
   @override
-  State<BottomTabBar> createState() => _BottomTabBarState();
+  State<AppNavigationbar> createState() => _AppNavigationbarState();
 }
 
-class _BottomTabBarState extends State<BottomTabBar> {
+class _AppNavigationbarState extends State<AppNavigationbar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +39,8 @@ class _BottomTabBarState extends State<BottomTabBar> {
 
   Expanded iconButton({required String icon, required int index}) {
     return Expanded(
-      child: AppInkWell.noSplash(
+      child: AppInkWell(
+        type: InkType.noSplash,
         onTap: () {
           widget.onChange(index);
         },

@@ -1,6 +1,6 @@
 import 'package:e_commerce/constants/app_fonts.dart';
 import 'package:e_commerce/constants/string_constants.dart';
-import 'package:e_commerce/screens/catalog/components/category_card.dart';
+import 'package:e_commerce/screens/categories/components/category_card.dart';
 import 'package:e_commerce/utilities/fake_data.dart';
 import 'package:e_commerce/widgets/search.dart';
 import 'package:flutter/material.dart';
@@ -36,16 +36,21 @@ class _CatalogViewState extends State<CatalogView> {
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      child: Text(
-        StringConstants.appName,
-        textAlign: TextAlign.center,
-        style: AppFonts.headingMedium,
+      child: Hero(
+        tag: 'app-name',
+        child: Text(
+          StringConstants.appName,
+          textAlign: TextAlign.center,
+          style: AppFonts.headingMedium,
+        ),
       ),
     );
   }
 
   Search get search {
-    return const Search();
+    return const Search(
+      hintText: StringConstants.catalogSearchHint,
+    );
   }
 
   Padding get categoryList {

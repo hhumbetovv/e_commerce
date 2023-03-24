@@ -4,6 +4,8 @@ enum AppIcons {
   heart('heart'),
   user('user'),
   cart('cart'),
+  directionVertical('direction-vertical'),
+  filter('filter'),
   bag('bag');
 
   const AppIcons(this.value);
