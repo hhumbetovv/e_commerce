@@ -25,6 +25,7 @@ class _CategoriesViewState extends State<CategoriesView> {
         title: Text(widget.category.title),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             search,

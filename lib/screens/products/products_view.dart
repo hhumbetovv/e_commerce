@@ -1,7 +1,7 @@
 import 'package:e_commerce/constants/string_constants.dart';
 import 'package:e_commerce/enums/icons.dart';
 import 'package:e_commerce/models/category.dart';
-import 'package:e_commerce/screens/categories/components/category_list_tile.dart';
+import 'package:e_commerce/screens/products/components/product_card.dart';
 import 'package:e_commerce/widgets/search.dart';
 import 'package:e_commerce/widgets/small_button.dart';
 import 'package:flutter/material.dart';
@@ -26,11 +26,12 @@ class _ProductsViewState extends State<ProductsView> {
         title: Text(widget.category.title),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             search,
-            // sortAndFilterRow,
-            categoryList,
+            sortAndFilterRow,
+            productList,
           ],
         ),
       ),
@@ -80,16 +81,23 @@ class _ProductsViewState extends State<ProductsView> {
     );
   }
 
-  ListView get categoryList {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
-      itemCount: widget.category.subCategories.length,
-      itemBuilder: (context, index) {
-        return CategoryListTile(
-          category: widget.category.subCategories[index],
-        );
-      },
+  Padding get productList {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: GridView.builder(
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: widget.category.products.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 24,
+          mainAxisExtent: 268,
+        ),
+        itemBuilder: (context, index) {
+          return ProductCard(product: widget.category.products[index]);
+        },
+      ),
     );
   }
 }
