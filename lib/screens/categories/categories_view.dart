@@ -1,9 +1,13 @@
-import 'package:e_commerce/constants/app_fonts.dart';
-import 'package:e_commerce/constants/string_constants.dart';
-import 'package:e_commerce/models/category.dart';
-import 'package:e_commerce/screens/categories/components/category_list_tile.dart';
-import 'package:e_commerce/widgets/search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../constants/app_fonts.dart';
+import '../../constants/string_constants.dart';
+import '../../enums/icons.dart';
+import '../../models/category.dart';
+import '../../widgets/app_inkwell.dart';
+import '../../widgets/search.dart';
+import 'components/category_list_tile.dart';
 
 class CategoriesView extends StatefulWidget {
   const CategoriesView({
@@ -23,6 +27,7 @@ class _CategoriesViewState extends State<CategoriesView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.category.title),
+        leading: goBackButton(context),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -32,6 +37,21 @@ class _CategoriesViewState extends State<CategoriesView> {
             text,
             categoryList,
           ],
+        ),
+      ),
+    );
+  }
+
+  Padding goBackButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: AppInkWell(
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+        type: InkType.noSplash,
+        child: SvgPicture.asset(
+          AppIcons.arrowLeft.svg,
         ),
       ),
     );

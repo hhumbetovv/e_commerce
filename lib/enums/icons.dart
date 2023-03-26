@@ -6,6 +6,7 @@ enum AppIcons {
   cart('cart'),
   directionVertical('direction-vertical'),
   filter('filter'),
+  arrowLeft('arrow-left'),
   bag('bag');
 
   const AppIcons(this.value);

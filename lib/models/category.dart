@@ -1,4 +1,4 @@
-import 'package:e_commerce/models/product.dart';
+import 'product.dart';
 
 class CategoryModel {
   final String title;

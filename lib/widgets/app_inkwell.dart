@@ -1,5 +1,6 @@
-import 'package:e_commerce/constants/color_constants.dart';
 import 'package:flutter/material.dart';
+
+import '../constants/color_constants.dart';
 
 class AppInkWell extends StatelessWidget {
   const AppInkWell({

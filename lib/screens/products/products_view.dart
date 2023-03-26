@@ -1,10 +1,13 @@
-import 'package:e_commerce/constants/string_constants.dart';
-import 'package:e_commerce/enums/icons.dart';
-import 'package:e_commerce/models/category.dart';
-import 'package:e_commerce/screens/products/components/product_card.dart';
-import 'package:e_commerce/widgets/search.dart';
-import 'package:e_commerce/widgets/small_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../constants/string_constants.dart';
+import '../../enums/icons.dart';
+import '../../models/category.dart';
+import '../../widgets/app_inkwell.dart';
+import '../../widgets/search.dart';
+import '../../widgets/small_button.dart';
+import 'components/product_card.dart';
 
 class ProductsView extends StatefulWidget {
   const ProductsView({
@@ -24,6 +27,7 @@ class _ProductsViewState extends State<ProductsView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.category.title),
+        leading: goBackButton(context),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -33,6 +37,21 @@ class _ProductsViewState extends State<ProductsView> {
             sortAndFilterRow,
             productList,
           ],
+        ),
+      ),
+    );
+  }
+
+  Padding goBackButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: AppInkWell(
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+        type: InkType.noSplash,
+        child: SvgPicture.asset(
+          AppIcons.arrowLeft.svg,
         ),
       ),
     );

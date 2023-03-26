@@ -1,9 +1,10 @@
-import 'package:e_commerce/constants/app_fonts.dart';
-import 'package:e_commerce/constants/string_constants.dart';
-import 'package:e_commerce/screens/categories/components/category_card.dart';
-import 'package:e_commerce/utilities/fake_data.dart';
-import 'package:e_commerce/widgets/search.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants/app_fonts.dart';
+import '../../constants/string_constants.dart';
+import '../../utilities/fake_data.dart';
+import '../../widgets/search.dart';
+import 'components/category_card.dart';
 
 class CatalogView extends StatefulWidget {
   const CatalogView({
@@ -38,10 +39,13 @@ class _CatalogViewState extends State<CatalogView> {
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       child: Hero(
         tag: 'app-name',
-        child: Text(
-          StringConstants.appName,
-          textAlign: TextAlign.center,
-          style: AppFonts.headingMedium,
+        child: Material(
+          color: Colors.transparent,
+          child: Text(
+            StringConstants.appName,
+            textAlign: TextAlign.center,
+            style: AppFonts.headingMedium,
+          ),
         ),
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:e_commerce/initialize/app_cache.dart';
+import '../initialize/app_cache.dart';
 
 enum CacheItems {
   favorites;

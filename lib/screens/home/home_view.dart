@@ -1,7 +1,8 @@
-import 'package:e_commerce/constants/color_constants.dart';
-import 'package:e_commerce/screens/home/components/bottom_tab_bar.dart';
-import 'package:e_commerce/screens/home/home_modal.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants/color_constants.dart';
+import 'components/app_navigation_bar.dart';
+import 'home_modal.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({
@@ -21,23 +22,31 @@ class _HomeViewState extends HomeModal {
       },
       child: Scaffold(
         backgroundColor: ColorConstants.white,
-        body: IndexedStack(
-          index: selectedIndex,
-          children: navigationItems.map((NavigationItem item) {
-            return Navigator(
-              key: item.key,
-              onGenerateRoute: (RouteSettings settings) {
-                return MaterialPageRoute(builder: (_) => item.widget);
-              },
-            );
-          }).toList(),
-        ),
-        bottomNavigationBar: AppNavigationbar(
-          pageIndex: selectedIndex,
-          onChange: setIndex,
-          icons: navigationItems.map((NavigationItem item) => item.icon).toList(),
-        ),
+        body: pageViews,
+        bottomNavigationBar: bottomNavBar,
       ),
+    );
+  }
+
+  IndexedStack get pageViews {
+    return IndexedStack(
+      index: selectedIndex,
+      children: navigationItems.map((NavigationItem item) {
+        return Navigator(
+          key: item.key,
+          onGenerateRoute: (RouteSettings settings) {
+            return MaterialPageRoute(builder: (_) => item.widget);
+          },
+        );
+      }).toList(),
+    );
+  }
+
+  AppNavigationbar get bottomNavBar {
+    return AppNavigationbar(
+      pageIndex: selectedIndex,
+      onChange: setIndex,
+      icons: navigationItems.map((NavigationItem item) => item.icon).toList(),
     );
   }
 }

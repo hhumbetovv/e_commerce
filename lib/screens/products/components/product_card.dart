@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:e_commerce/constants/app_fonts.dart';
-import 'package:e_commerce/constants/color_constants.dart';
-import 'package:e_commerce/enums/icons.dart';
-import 'package:e_commerce/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../constants/app_fonts.dart';
+import '../../../constants/color_constants.dart';
+import '../../../enums/icons.dart';
+import '../../../models/product.dart';
+import '../../../widgets/app_inkwell.dart';
+import '../product_details_view.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -14,27 +17,41 @@ class ProductCard extends StatelessWidget {
 
   final ProductModel product;
 
+  void cardOnTap(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return ProductDetailsView(product: product);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          children: [
-            cardImage,
-            favoriteButton,
-          ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            cardTitle,
-            price,
-          ],
-        ),
-        const SizedBox(height: 4),
-        cardDescription,
-      ],
+    return AppInkWell(
+      onTap: () => cardOnTap(context),
+      type: InkType.sparkle,
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              cardImage,
+              favoriteButton,
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              cardTitle,
+              price,
+            ],
+          ),
+          const SizedBox(height: 4),
+          cardDescription,
+        ],
+      ),
     );
   }
 
@@ -58,8 +75,6 @@ class ProductCard extends StatelessWidget {
       right: 8,
       child: SvgPicture.asset(
         AppIcons.heart.svg,
-        height: 32,
-        width: 32,
       ),
     );
   }

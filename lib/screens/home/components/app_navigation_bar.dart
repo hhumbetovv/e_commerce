@@ -1,7 +1,8 @@
-import 'package:e_commerce/constants/color_constants.dart';
-import 'package:e_commerce/widgets/app_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../constants/color_constants.dart';
+import '../../../widgets/app_inkwell.dart';
 
 class AppNavigationbar extends StatefulWidget {
   const AppNavigationbar({

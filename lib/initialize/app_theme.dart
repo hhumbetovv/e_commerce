@@ -1,6 +1,7 @@
-import 'package:e_commerce/constants/app_fonts.dart';
-import 'package:e_commerce/constants/color_constants.dart';
 import 'package:flutter/material.dart';
+
+import '../constants/app_fonts.dart';
+import '../constants/color_constants.dart';
 
 class AppTheme {
   static ThemeData theme = ThemeData(

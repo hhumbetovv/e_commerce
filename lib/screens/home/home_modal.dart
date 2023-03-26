@@ -1,9 +1,9 @@
-import 'package:e_commerce/enums/icons.dart';
-import 'package:e_commerce/screens/categories/catalog_view.dart';
-import 'package:e_commerce/screens/favorites/favorites_view.dart';
-import 'package:e_commerce/screens/home/home_view.dart';
-import 'package:e_commerce/screens/profile/profile_view.dart';
 import 'package:flutter/material.dart';
+
+import '../../enums/icons.dart';
+import '../categories/catalog_view.dart';
+import '../favorites/favorites_view.dart';
+import 'home_view.dart';
 
 abstract class HomeModal extends State<HomeView> {
   final List<NavigationItem> navigationItems = [
@@ -15,11 +15,6 @@ abstract class HomeModal extends State<HomeView> {
     NavigationItem(
       icon: AppIcons.heart.svg,
       widget: const FavoritesView(),
-      key: GlobalKey<NavigatorState>(),
-    ),
-    NavigationItem(
-      icon: AppIcons.user.svg,
-      widget: const ProfileView(),
       key: GlobalKey<NavigatorState>(),
     ),
   ];

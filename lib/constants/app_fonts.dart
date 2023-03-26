@@ -1,5 +1,6 @@
-import 'package:e_commerce/constants/color_constants.dart';
 import 'package:flutter/material.dart';
+
+import 'color_constants.dart';
 
 @immutable
 class AppFonts {

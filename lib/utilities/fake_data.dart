@@ -1,6 +1,6 @@
-import 'package:e_commerce/models/category.dart';
-import 'package:e_commerce/models/product.dart';
-import 'package:e_commerce/utilities/random_photo_url.dart';
+import '../models/category.dart';
+import '../models/product.dart';
+import 'random_photo_url.dart';
 
 class Faker {
   static List<ProductModel> products = [

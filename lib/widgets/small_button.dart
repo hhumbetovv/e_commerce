@@ -1,8 +1,9 @@
-import 'package:e_commerce/constants/app_fonts.dart';
-import 'package:e_commerce/constants/color_constants.dart';
-import 'package:e_commerce/widgets/app_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../constants/app_fonts.dart';
+import '../constants/color_constants.dart';
+import 'app_inkwell.dart';
 
 class SmallButton extends StatelessWidget {
   const SmallButton({
