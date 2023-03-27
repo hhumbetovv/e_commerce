@@ -19,6 +19,7 @@ class ProductDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorConstants.grey[100],
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
@@ -27,6 +28,7 @@ class ProductDetailsView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,6 +39,41 @@ class ProductDetailsView extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   description,
+                  const SizedBox(height: 10),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          'Parametrlər',
+                          style: AppFonts.headingSmall,
+                        ),
+                      ),
+                      ...product.parameters.map((parameter) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                parameter.parameterName,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppFonts.bodyLarge,
+                              ),
+                              Text(
+                                parameter.value ?? '—',
+                                style: AppFonts.bodyLarge.copyWith(
+                                  color: ColorConstants.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -72,7 +109,7 @@ class ProductDetailsView extends StatelessWidget {
       },
       type: InkType.noSplash,
       child: CircleAvatar(
-        backgroundColor: ColorConstants.white.withOpacity(0.7),
+        backgroundColor: ColorConstants.grey[100],
         radius: 18,
         child: SvgPicture.asset(AppIcons.arrowLeft.svg),
       ),
@@ -84,7 +121,7 @@ class ProductDetailsView extends StatelessWidget {
       onTap: () {},
       type: InkType.noSplash,
       child: CircleAvatar(
-        backgroundColor: ColorConstants.white.withOpacity(0.7),
+        backgroundColor: ColorConstants.grey[100],
         radius: 18,
         child: SvgPicture.asset(AppIcons.heart.svg),
       ),
