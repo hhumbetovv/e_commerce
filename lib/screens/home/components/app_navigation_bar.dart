@@ -46,7 +46,7 @@ class _AppNavigationbarState extends State<AppNavigationbar> {
           widget.onChange(index);
         },
         child: Padding(
-          padding: const EdgeInsets.only(top: 16, bottom: 28),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: SvgPicture.asset(
             icon,
             height: 32,

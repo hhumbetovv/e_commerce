@@ -49,30 +49,32 @@ class _ProductImageViewState extends State<ProductImageView> {
     );
   }
 
-  Positioned get indicator {
-    return Positioned(
-      bottom: 16,
-      child: Container(
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: ColorConstants.white.withOpacity(0.7),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Wrap(
-          spacing: 4,
-          children: widget.imageUrls.asMap().entries.map((entry) {
-            return AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              height: 5,
-              width: currentIndex == entry.key ? 11 : 5,
+  Widget get indicator {
+    return widget.imageUrls.length != 1
+        ? Positioned(
+            bottom: 16,
+            child: Container(
+              padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: currentIndex == entry.key ? ColorConstants.black : ColorConstants.grey[300],
+                color: ColorConstants.white.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(4),
               ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
+              child: Wrap(
+                spacing: 4,
+                children: widget.imageUrls.asMap().entries.map((entry) {
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    height: 5,
+                    width: currentIndex == entry.key ? 11 : 5,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: currentIndex == entry.key ? ColorConstants.black : ColorConstants.grey[300],
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          )
+        : const SizedBox.shrink();
   }
 }

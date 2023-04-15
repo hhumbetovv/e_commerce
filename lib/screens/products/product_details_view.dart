@@ -19,7 +19,6 @@ class ProductDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstants.grey[100],
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[

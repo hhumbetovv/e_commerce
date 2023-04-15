@@ -7,7 +7,7 @@ class Faker {
     ProductModel(
       title: 'Jeans',
       description: 'Sint consectetur voluptate occaecat magna veniam anim aliquip dolore cillum.',
-      imageUrls: [randomPhotoUrl(), randomPhotoUrl()],
+      imageUrls: [randomPhotoUrl()],
       price: 30.50,
       sizes: '41, 42, 43',
       color: 'Mavi',
