@@ -3,29 +3,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/string_constants.dart';
 import '../../enums/icons.dart';
-import '../../models/category.dart';
 import '../../widgets/app_inkwell.dart';
 import '../../widgets/search.dart';
 import '../../widgets/small_button.dart';
 
-class ProductsView extends StatefulWidget {
-  const ProductsView({
+class AllProductsView extends StatefulWidget {
+  const AllProductsView({
     Key? key,
-    required this.category,
   }) : super(key: key);
 
-  final CategoryModel category;
-
   @override
-  State<ProductsView> createState() => _ProductsViewState();
+  State<AllProductsView> createState() => _AllProductsViewState();
 }
 
-class _ProductsViewState extends State<ProductsView> {
+class _AllProductsViewState extends State<AllProductsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category.title),
+        title: const Text(StringConstants.allProductsText),
         leading: goBackButton(context),
       ),
       body: Column(
@@ -56,7 +52,7 @@ class _ProductsViewState extends State<ProductsView> {
   Search get search {
     return Search(
       hintText: StringConstants.productSearchHint,
-      onChanged: (String data) {},
+      onChanged: (String text) {},
     );
   }
 
@@ -103,7 +99,7 @@ class _ProductsViewState extends State<ProductsView> {
         padding: const EdgeInsets.all(16),
         physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
-        itemCount: widget.category.products.length,
+        itemCount: 0,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 15,

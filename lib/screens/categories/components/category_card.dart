@@ -71,6 +71,7 @@ class CategoryCard extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 1,
       child: CachedNetworkImage(
+        fit: BoxFit.cover,
         imageUrl: category.imageUrl,
         placeholder: (context, url) => Center(
           child: CircularProgressIndicator(

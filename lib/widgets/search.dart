@@ -10,9 +10,11 @@ class Search extends StatelessWidget {
   const Search({
     Key? key,
     required this.hintText,
+    required this.onChanged,
   }) : super(key: key);
 
   final String hintText;
+  final Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class Search extends StatelessWidget {
         style: AppFonts.bodyMedium.regular,
         textAlignVertical: TextAlignVertical.center,
         cursorColor: ColorConstants.primary,
+        onChanged: onChanged,
         decoration: InputDecoration(
           fillColor: ColorConstants.grey[100],
           filled: true,

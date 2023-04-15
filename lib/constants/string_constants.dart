@@ -11,6 +11,7 @@ class StringConstants {
 
   static const String categoriesText = 'Kateqoriyalar';
   static const String procutsText = 'Məhsullar';
+  static const String allProductsText = 'Bütün Məhsullar';
 
   static const String sortHintText = 'Çeşidlə';
   static const String filterHintText = 'Filtr';
