@@ -14,4 +14,6 @@ class StringConstants {
 
   static const String sortHintText = 'Çeşidlə';
   static const String filterHintText = 'Filtr';
+
+  static const String parametersHeading = 'Parametrlər';
 }

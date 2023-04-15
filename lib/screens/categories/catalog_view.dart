@@ -20,15 +20,12 @@ class _CatalogViewState extends State<CatalogView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            title,
-            search,
-            categoryList,
-          ],
-        ),
+      body: Column(
+        children: [
+          title,
+          search,
+          categoryList,
+        ],
       ),
     );
   }
@@ -57,10 +54,10 @@ class _CatalogViewState extends State<CatalogView> {
     );
   }
 
-  Padding get categoryList {
-    return Padding(
-      padding: const EdgeInsets.all(16),
+  Expanded get categoryList {
+    return Expanded(
       child: ListView.separated(
+        padding: const EdgeInsets.all(16),
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
         itemCount: Faker.mainCategories.length,

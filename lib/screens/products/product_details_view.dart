@@ -39,40 +39,7 @@ class ProductDetailsView extends StatelessWidget {
                   const SizedBox(height: 4),
                   description,
                   const SizedBox(height: 10),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Text(
-                          'Parametrlər',
-                          style: AppFonts.headingSmall,
-                        ),
-                      ),
-                      ...product.parameters.map((parameter) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                parameter.parameterName,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppFonts.bodyLarge,
-                              ),
-                              Text(
-                                parameter.value ?? '—',
-                                style: AppFonts.bodyLarge.copyWith(
-                                  color: ColorConstants.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                    ],
-                  )
+                  parameters
                 ],
               ),
             ),
@@ -146,6 +113,34 @@ class ProductDetailsView extends StatelessWidget {
     return Text(
       product.description,
       style: AppFonts.bodyMedium.copyWith(color: ColorConstants.grey),
+    );
+  }
+
+  Column get parameters {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: product.parameters.map((parameter) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                parameter.parameterName,
+                overflow: TextOverflow.ellipsis,
+                style: AppFonts.bodyLarge,
+              ),
+              Text(
+                parameter.value ?? '—',
+                style: AppFonts.bodyLarge.copyWith(
+                  color: ColorConstants.grey,
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
     );
   }
 }

@@ -29,15 +29,12 @@ class _CategoriesViewState extends State<CategoriesView> {
         title: Text(widget.category.title),
         leading: goBackButton(context),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            search,
-            text,
-            categoryList,
-          ],
-        ),
+      body: Column(
+        children: [
+          search,
+          text,
+          categoryList,
+        ],
       ),
     );
   }
@@ -74,16 +71,18 @@ class _CategoriesViewState extends State<CategoriesView> {
     );
   }
 
-  ListView get categoryList {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
-      itemCount: widget.category.subCategories.length,
-      itemBuilder: (context, index) {
-        return CategoryListTile(
-          category: widget.category.subCategories[index],
-        );
-      },
+  Expanded get categoryList {
+    return Expanded(
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        itemCount: widget.category.subCategories.length,
+        itemBuilder: (context, index) {
+          return CategoryListTile(
+            category: widget.category.subCategories[index],
+          );
+        },
+      ),
     );
   }
 }

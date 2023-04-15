@@ -33,6 +33,7 @@ class ProductCard extends StatelessWidget {
       onTap: () => cardOnTap(context),
       type: InkType.sparkle,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
             children: [

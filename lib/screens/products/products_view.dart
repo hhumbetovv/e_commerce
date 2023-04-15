@@ -29,15 +29,12 @@ class _ProductsViewState extends State<ProductsView> {
         title: Text(widget.category.title),
         leading: goBackButton(context),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            search,
-            sortAndFilterRow,
-            productList,
-          ],
-        ),
+      body: Column(
+        children: [
+          search,
+          sortAndFilterRow,
+          productList,
+        ],
       ),
     );
   }
@@ -100,10 +97,10 @@ class _ProductsViewState extends State<ProductsView> {
     );
   }
 
-  Padding get productList {
-    return Padding(
-      padding: const EdgeInsets.all(16),
+  Expanded get productList {
+    return Expanded(
       child: GridView.builder(
+        padding: const EdgeInsets.all(16),
         physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
         itemCount: widget.category.products.length,
