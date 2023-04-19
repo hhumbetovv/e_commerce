@@ -1,14 +1,13 @@
+import 'package:e_commerce/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/app_fonts.dart';
 import '../../constants/string_constants.dart';
 import '../../enums/icons.dart';
-import '../../models/category.dart';
 import '../../widgets/app_inkwell.dart';
 import '../../widgets/search.dart';
-import 'categories_model.dart';
-import 'components/all_products_list_tile.dart';
+import 'categories_modal.dart';
 import 'components/category_list_tile.dart';
 
 class CategoriesView extends StatefulWidget {
@@ -18,12 +17,11 @@ class CategoriesView extends StatefulWidget {
   }) : super(key: key);
 
   final CategoryModel category;
-
   @override
   State<CategoriesView> createState() => _CategoriesViewState();
 }
 
-class _CategoriesViewState extends CategoriesModel {
+class _CategoriesViewState extends CategoriesModal {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,50 +74,34 @@ class _CategoriesViewState extends CategoriesModel {
     );
   }
 
-  FutureBuilder get categoryList {
-    return FutureBuilder(
-      future: getSubCategories(widget.category.subCategories),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Expanded(
-            child: Center(
-              child: CircularProgressIndicator(),
+  Expanded get categoryList {
+    final filteredCategories = categories.where((categories) {
+      return categories.title.toLowerCase().contains(searchText.toLowerCase());
+    }).toList();
+
+    return Expanded(
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            if (searchText.isEmpty && widget.category.products.isNotEmpty)
+              CategoryListTile(
+                category: widget.category,
+                isClosed: true,
+              ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              itemCount: filteredCategories.length,
+              itemBuilder: (context, index) {
+                return CategoryListTile(
+                  category: filteredCategories[index],
+                );
+              },
             ),
-          );
-        }
-        final categories = snapshot.data!;
-        final filteredCategories = [];
-        for (var category in categories) {
-          if (category['title'].toString().toLowerCase().contains(searchText.toLowerCase())) {
-            filteredCategories.add(category);
-          }
-        }
-        return Expanded(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                if (widget.category.products.isNotEmpty) AllProductsListTile(imageUrl: widget.category.imageUrl),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: filteredCategories.length,
-                  itemBuilder: (context, index) {
-                    return CategoryListTile(
-                      category: CategoryModel.fromJson(
-                        filteredCategories[index].data() as Map<String, dynamic>,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }

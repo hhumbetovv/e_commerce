@@ -1,9 +1,11 @@
+import 'package:e_commerce/models/category.dart';
+import 'package:e_commerce/screens/products/components/product_card.dart';
+import 'package:e_commerce/screens/products/products_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/string_constants.dart';
 import '../../enums/icons.dart';
-import '../../models/category.dart';
 import '../../widgets/app_inkwell.dart';
 import '../../widgets/search.dart';
 import '../../widgets/small_button.dart';
@@ -14,18 +16,18 @@ class ProductsView extends StatefulWidget {
     required this.category,
   }) : super(key: key);
 
-  final CategoryModel category;
+  final CategoryModel? category;
 
   @override
   State<ProductsView> createState() => _ProductsViewState();
 }
 
-class _ProductsViewState extends State<ProductsView> {
+class _ProductsViewState extends ProductsModal {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category.title),
+        title: Text(widget.category?.title ?? StringConstants.allProductsText),
         leading: goBackButton(context),
       ),
       body: Column(
@@ -56,7 +58,9 @@ class _ProductsViewState extends State<ProductsView> {
   Search get search {
     return Search(
       hintText: StringConstants.productSearchHint,
-      onChanged: (String data) {},
+      onChanged: (String text) {
+        setState(() => searchText = text);
+      },
     );
   }
 
@@ -98,12 +102,15 @@ class _ProductsViewState extends State<ProductsView> {
   }
 
   Expanded get productList {
+    final filteredProducts = products.where((product) {
+      return product.title.toLowerCase().contains(searchText.toLowerCase());
+    }).toList();
     return Expanded(
       child: GridView.builder(
         padding: const EdgeInsets.all(16),
         physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
-        itemCount: widget.category.products.length,
+        itemCount: filteredProducts.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 15,
@@ -111,8 +118,9 @@ class _ProductsViewState extends State<ProductsView> {
           mainAxisExtent: 268,
         ),
         itemBuilder: (context, index) {
-          // return ProductCard(product: widget.category.products[index]);
-          return const SizedBox();
+          return ProductCard(
+            product: filteredProducts[index],
+          );
         },
       ),
     );

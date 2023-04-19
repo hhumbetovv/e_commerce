@@ -7,7 +7,7 @@ import 'app_cache.dart';
 class AppOnset {
   const AppOnset._();
 
-  static void init() async {
+  static Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,

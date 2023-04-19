@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../enums/icons.dart';
-import '../categories/catalog_view.dart';
+import '../catalog/catalog_view.dart';
 import '../favorites/favorites_view.dart';
 import 'home_view.dart';
 

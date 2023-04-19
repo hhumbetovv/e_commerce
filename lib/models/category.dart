@@ -1,12 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class CategoryModel {
+  final String id;
   final String title;
   final String imageUrl;
   final List<String> subCategories;
   final List<String> products;
 
   CategoryModel({
+    required this.id,
     required this.title,
     required this.imageUrl,
     required this.subCategories,
@@ -25,6 +25,7 @@ class CategoryModel {
       }),
     );
     return CategoryModel(
+      id: json['id'] as String,
       title: json['title'] as String,
       imageUrl: json['imageUrl'] as String,
       subCategories: subCategories,
@@ -34,25 +35,12 @@ class CategoryModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'imageUrl': imageUrl,
       'products': products,
       'subCategories': subCategories,
     };
-  }
-
-  Future<List<String>> getSubCategories() async {
-    List<Future<DocumentSnapshot>> futures = [];
-    for (String subCategoryId in subCategories) {
-      futures.add(FirebaseFirestore.instance.collection('subCategories').doc(subCategoryId).get());
-    }
-
-    List<DocumentSnapshot> snapshots = await Future.wait(futures);
-    List<String> subCategoryTitles = [];
-    for (DocumentSnapshot snapshot in snapshots) {
-      subCategoryTitles.add(snapshot.get('title'));
-    }
-    return subCategoryTitles;
   }
 
   @override

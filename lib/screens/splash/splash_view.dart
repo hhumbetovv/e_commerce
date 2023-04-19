@@ -1,9 +1,12 @@
+import 'package:e_commerce/constants/app_fonts.dart';
+import 'package:e_commerce/constants/color_constants.dart';
+import 'package:e_commerce/constants/string_constants.dart';
+import 'package:e_commerce/cubits/catalog/catalog_cubit.dart';
+import 'package:e_commerce/cubits/category/category_cubit.dart';
+import 'package:e_commerce/cubits/product/product_cubit.dart';
+import 'package:e_commerce/screens/home/home_view.dart';
 import 'package:flutter/material.dart';
-
-import '../../constants/app_fonts.dart';
-import '../../constants/color_constants.dart';
-import '../../constants/string_constants.dart';
-import '../home/home_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({
@@ -15,46 +18,74 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-  bool isLoading = false;
+  final bool _showProgressIndicator = true;
+  late final CatalogCubit _catalogCubit;
+  late final CategoryCubit _categoryCubit;
+  late final ProductCubit _productCubit;
 
   @override
   void initState() {
     super.initState();
-    Future(() {
-      setState(() {
-        isLoading = true;
-      });
-    });
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const HomeView(),
-        ),
-      );
-    });
+    _catalogCubit = context.read<CatalogCubit>();
+    _categoryCubit = context.read<CategoryCubit>();
+    _productCubit = context.read<ProductCubit>();
+    _loadData();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return screen(
-      children: [
-        appName,
-        animatedProgressIndigator,
-      ],
-    );
+  Future<void> _loadData() async {
+    try {
+      await Future.wait([
+        _catalogCubit.getCatalogs(),
+        _categoryCubit.getCategories(),
+        _productCubit.getProducts(),
+      ]);
+      if (mounted) {}
+      if (_catalogCubit.state is CatalogError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(_catalogCubit.state.toString())),
+        );
+      } else if (_categoryCubit.state is CategoryError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(_categoryCubit.state.toString())),
+        );
+      } else if (_productCubit.state is ProductError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(_productCubit.state.toString())),
+        );
+      } else {
+        _navigateToHome();
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+    }
   }
 
-  Material screen({required List<Widget> children}) {
-    return Material(
-      color: ColorConstants.primary[300],
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: children,
+  void _navigateToHome() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const HomeView(),
       ),
     );
   }
 
-  Hero get appName {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: ColorConstants.primary[300],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            appName,
+            animatedProgressIndicator,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget get appName {
     return Hero(
       tag: 'app-name',
       child: Material(
@@ -67,9 +98,9 @@ class _SplashViewState extends State<SplashView> {
     );
   }
 
-  AnimatedOpacity get animatedProgressIndigator {
+  Widget get animatedProgressIndicator {
     return AnimatedOpacity(
-      opacity: isLoading ? 1 : 0,
+      opacity: _showProgressIndicator ? 1 : 0,
       duration: const Duration(milliseconds: 1500),
       child: Padding(
         padding: const EdgeInsets.all(10),

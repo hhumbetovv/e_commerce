@@ -7,7 +7,7 @@ import '../../../constants/color_constants.dart';
 import '../../../enums/icons.dart';
 import '../../../models/product.dart';
 import '../../../widgets/app_inkwell.dart';
-import '../product_details_view.dart';
+import '../../product_details/product_details_view.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -63,9 +63,12 @@ class ProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       clipBehavior: Clip.antiAlias,
-      child: CachedNetworkImage(
-        imageUrl: product.imageUrls[0],
-        fit: BoxFit.fitHeight,
+      child: Hero(
+        tag: product.imageUrls[0],
+        child: CachedNetworkImage(
+          imageUrl: product.imageUrls[0],
+          fit: BoxFit.fitHeight,
+        ),
       ),
     );
   }
@@ -74,8 +77,12 @@ class ProductCard extends StatelessWidget {
     return Positioned(
       top: 8,
       right: 8,
-      child: SvgPicture.asset(
-        AppIcons.heart.svg,
+      child: CircleAvatar(
+        backgroundColor: ColorConstants.grey[100]?.withOpacity(0.5),
+        radius: 15,
+        child: SvgPicture.asset(
+          AppIcons.heart.svg,
+        ),
       ),
     );
   }

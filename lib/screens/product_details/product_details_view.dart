@@ -132,7 +132,7 @@ class ProductDetailsView extends StatelessWidget {
                 style: AppFonts.bodyLarge,
               ),
               Text(
-                parameter.value ?? '—',
+                parameter.values.isNotEmpty ? parameter.values.join(', ') : '—',
                 style: AppFonts.bodyLarge.copyWith(
                   color: ColorConstants.grey,
                 ),

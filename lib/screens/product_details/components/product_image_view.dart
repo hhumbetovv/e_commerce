@@ -41,9 +41,12 @@ class _ProductImageViewState extends State<ProductImageView> {
       itemCount: widget.imageUrls.length,
       onPageChanged: setIndex,
       itemBuilder: (BuildContext context, int index) {
-        return CachedNetworkImage(
-          imageUrl: widget.imageUrls[index],
-          fit: BoxFit.fitHeight,
+        return Hero(
+          tag: widget.imageUrls[index],
+          child: CachedNetworkImage(
+            imageUrl: widget.imageUrls[index],
+            fit: BoxFit.fitHeight,
+          ),
         );
       },
     );

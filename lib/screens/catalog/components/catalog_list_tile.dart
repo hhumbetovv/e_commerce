@@ -1,29 +1,35 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_commerce/models/category.dart';
+import 'package:e_commerce/screens/categories/categories_view.dart';
+import 'package:e_commerce/screens/products/products_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/app_fonts.dart';
 import '../../../constants/color_constants.dart';
-import '../../../models/category.dart';
+import '../../../constants/string_constants.dart';
+import '../../../enums/images.dart';
 import '../../../widgets/app_inkwell.dart';
-import '../../products/products_view.dart';
-import '../categories_view.dart';
 
-class CategoryCard extends StatelessWidget {
-  const CategoryCard({
+class CatalogListTile extends StatelessWidget {
+  const CatalogListTile({
     Key? key,
-    required this.category,
+    this.catalog,
   }) : super(key: key);
 
-  final CategoryModel category;
+  final CategoryModel? catalog;
 
   void cardOnTap(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          if (category.subCategories.isEmpty) {
-            return ProductsView(category: category);
+          if (catalog != null && catalog!.subCategories.isNotEmpty) {
+            return CategoriesView(
+              category: catalog!,
+            );
           }
-          return CategoriesView(category: category);
+          return ProductsView(
+            category: catalog,
+          );
         },
       ),
     );
@@ -58,7 +64,7 @@ class CategoryCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Text(
-          category.title,
+          catalog?.title ?? StringConstants.allProductsText,
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
           style: AppFonts.headingSmall,
@@ -70,22 +76,27 @@ class CategoryCard extends StatelessWidget {
   AspectRatio get cardImage {
     return AspectRatio(
       aspectRatio: 1,
-      child: CachedNetworkImage(
-        fit: BoxFit.cover,
-        imageUrl: category.imageUrl,
-        placeholder: (context, url) => Center(
-          child: CircularProgressIndicator(
-            color: ColorConstants.primary[400],
-          ),
-        ),
-        errorWidget: (context, url, error) => const Center(
-          child: Icon(
-            Icons.error,
-            color: ColorConstants.red,
-            size: 32,
-          ),
-        ),
-      ),
+      child: catalog != null
+          ? CachedNetworkImage(
+              fit: BoxFit.cover,
+              imageUrl: catalog!.imageUrl,
+              placeholder: (context, url) => Center(
+                child: CircularProgressIndicator(
+                  color: ColorConstants.primary[400],
+                ),
+              ),
+              errorWidget: (context, url, error) => const Center(
+                child: Icon(
+                  Icons.error,
+                  color: ColorConstants.red,
+                  size: 32,
+                ),
+              ),
+            )
+          : Image.asset(
+              AppImages.allProductsCover.jpg,
+              fit: BoxFit.cover,
+            ),
     );
   }
 }
