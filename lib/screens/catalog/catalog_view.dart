@@ -73,7 +73,7 @@ class _CatalogViewState extends CatalogModal {
   }
 
   Expanded get catalogList {
-    final filteredCatalogs = catalogs.where((catalog) {
+    final searchedCatalogs = catalogs.where((catalog) {
       return catalog.title.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
     return Expanded(
@@ -90,10 +90,10 @@ class _CatalogViewState extends CatalogModal {
               padding: const EdgeInsets.all(16),
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
-              itemCount: filteredCatalogs.length,
+              itemCount: searchedCatalogs.length,
               itemBuilder: (context, index) {
                 return CatalogListTile(
-                  catalog: filteredCatalogs[index],
+                  catalog: searchedCatalogs[index],
                 );
               },
               separatorBuilder: (context, index) {

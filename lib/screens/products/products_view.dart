@@ -94,7 +94,7 @@ class _ProductsViewState extends ProductsModal {
   }
 
   Expanded get productList {
-    final filteredProducts = products.where((product) {
+    final searchedProducts = products.where((product) {
       return product.title.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
     return Expanded(
@@ -102,7 +102,7 @@ class _ProductsViewState extends ProductsModal {
         padding: const EdgeInsets.all(16),
         physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
-        itemCount: filteredProducts.length,
+        itemCount: searchedProducts.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 15,
@@ -111,7 +111,7 @@ class _ProductsViewState extends ProductsModal {
         ),
         itemBuilder: (context, index) {
           return ProductCard(
-            product: filteredProducts[index],
+            product: searchedProducts[index],
           );
         },
       ),

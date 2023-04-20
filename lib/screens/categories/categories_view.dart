@@ -75,7 +75,7 @@ class _CategoriesViewState extends CategoriesModal {
   }
 
   Expanded get categoryList {
-    final filteredCategories = categories.where((categories) {
+    final searchedCategories = categories.where((categories) {
       return categories.title.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
 
@@ -92,10 +92,10 @@ class _CategoriesViewState extends CategoriesModal {
             ListView.builder(
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
-              itemCount: filteredCategories.length,
+              itemCount: searchedCategories.length,
               itemBuilder: (context, index) {
                 return CategoryListTile(
-                  category: filteredCategories[index],
+                  category: searchedCategories[index],
                 );
               },
             ),

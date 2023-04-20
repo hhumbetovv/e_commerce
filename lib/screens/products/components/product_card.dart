@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants/app_fonts.dart';
 import '../../../constants/color_constants.dart';
-import '../../../enums/icons.dart';
 import '../../../models/product.dart';
 import '../../../widgets/app_inkwell.dart';
 import '../../product_details/product_details_view.dart';
@@ -38,7 +36,6 @@ class ProductCard extends StatelessWidget {
           Stack(
             children: [
               cardImage,
-              favoriteButton,
             ],
           ),
           const SizedBox(height: 8),
@@ -68,20 +65,6 @@ class ProductCard extends StatelessWidget {
         child: CachedNetworkImage(
           imageUrl: product.imageUrls[0],
           fit: BoxFit.fitHeight,
-        ),
-      ),
-    );
-  }
-
-  Positioned get favoriteButton {
-    return Positioned(
-      top: 8,
-      right: 8,
-      child: CircleAvatar(
-        backgroundColor: ColorConstants.grey[100]?.withOpacity(0.5),
-        radius: 15,
-        child: SvgPicture.asset(
-          AppIcons.heart.svg,
         ),
       ),
     );

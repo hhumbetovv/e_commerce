@@ -1,3 +1,5 @@
+import 'package:e_commerce/enums/cache_items.dart';
+import 'package:e_commerce/screens/product_details/product_details_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -8,7 +10,7 @@ import '../../models/product.dart';
 import '../../widgets/app_inkwell.dart';
 import 'components/product_image_view.dart';
 
-class ProductDetailsView extends StatelessWidget {
+class ProductDetailsView extends StatefulWidget {
   const ProductDetailsView({
     Key? key,
     required this.product,
@@ -16,6 +18,11 @@ class ProductDetailsView extends StatelessWidget {
 
   final ProductModel product;
 
+  @override
+  State<ProductDetailsView> createState() => _ProductDetailsViewState();
+}
+
+class _ProductDetailsViewState extends ProductDetailsModal {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +70,7 @@ class ProductDetailsView extends StatelessWidget {
       backgroundColor: Colors.transparent,
       expandedHeight: 458,
       flexibleSpace: FlexibleSpaceBar(
-        background: ProductImageView(imageUrls: product.imageUrls),
+        background: ProductImageView(imageUrls: widget.product.imageUrls),
       ),
     );
   }
@@ -83,20 +90,23 @@ class ProductDetailsView extends StatelessWidget {
   }
 
   AppInkWell get toggleFavoriteButton {
+    bool isFavorite = CacheItems.favorites.getStringList.contains(widget.product.id);
     return AppInkWell(
-      onTap: () {},
+      onTap: toggleFavorite,
       type: InkType.noSplash,
       child: CircleAvatar(
         backgroundColor: ColorConstants.grey[100],
         radius: 18,
-        child: SvgPicture.asset(AppIcons.heart.svg),
+        child: SvgPicture.asset(
+          isFavorite ? AppIcons.heartFilled.svg : AppIcons.heart.svg,
+        ),
       ),
     );
   }
 
   Text get title {
     return Text(
-      product.title,
+      widget.product.title,
       overflow: TextOverflow.ellipsis,
       style: AppFonts.headingSmall,
     );
@@ -104,14 +114,14 @@ class ProductDetailsView extends StatelessWidget {
 
   Text get price {
     return Text(
-      '${product.price}\u20BC',
+      '${widget.product.price}\u20BC',
       style: AppFonts.headingSmall,
     );
   }
 
   Text get description {
     return Text(
-      product.description,
+      widget.product.description,
       style: AppFonts.bodyMedium.copyWith(color: ColorConstants.grey),
     );
   }
@@ -120,7 +130,7 @@ class ProductDetailsView extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: product.parameters.map((parameter) {
+      children: widget.product.parameters.map((parameter) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
