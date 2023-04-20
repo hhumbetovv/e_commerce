@@ -7,6 +7,7 @@ enum AppIcons {
   directionVertical('direction-vertical'),
   filter('filter'),
   arrowLeft('arrow-left'),
+  checkmark('checkmark'),
   bag('bag');
 
   const AppIcons(this.value);

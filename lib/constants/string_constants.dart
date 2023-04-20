@@ -14,7 +14,13 @@ class StringConstants {
   static const String allProductsText = 'Bütün Məhsullar';
 
   static const String sortHintText = 'Çeşidlə';
+  static const String sortPriceLowToHigh = 'Əvvəlcə ucuz';
+  static const String sortPriceHighToLow = 'Əvvəlcə bahalı';
+  static const String sortNews = 'Yenilər';
+  static const String sortOlds = 'Köhnələr';
+
   static const String filterHintText = 'Filtr';
 
   static const String parametersHeading = 'Parametrlər';
+  static const String cancelText = 'Ləğv et';
 }

@@ -34,7 +34,7 @@ class _ProductsViewState extends ProductsModal {
         children: [
           search,
           sortAndFilterRow,
-          productList,
+          isLoading ? loader : productList,
         ],
       ),
     );
@@ -65,37 +65,29 @@ class _ProductsViewState extends ProductsModal {
   }
 
   Padding get sortAndFilterRow {
-    Expanded sortButton() {
-      return Expanded(
-        child: SmallButton(
-          text: StringConstants.sortHintText,
-          onTap: () {},
-          type: ButtonType.secondary,
-          isFullWidth: true,
-          icon: AppIcons.directionVertical.svg,
-        ),
-      );
-    }
-
-    Expanded filterButton() {
-      return Expanded(
-        child: SmallButton(
-          text: StringConstants.filterHintText,
-          onTap: () {},
-          type: ButtonType.secondary,
-          isFullWidth: true,
-          icon: AppIcons.filter.svg,
-        ),
-      );
-    }
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
-          sortButton(),
+          Expanded(
+            child: SmallButton(
+              text: StringConstants.sortHintText,
+              onTap: showSortingSelections,
+              type: ButtonType.secondary,
+              isFullWidth: true,
+              icon: AppIcons.directionVertical.svg,
+            ),
+          ),
           const SizedBox(width: 15),
-          filterButton(),
+          Expanded(
+            child: SmallButton(
+              text: StringConstants.filterHintText,
+              onTap: showFilterSelections,
+              type: ButtonType.secondary,
+              isFullWidth: true,
+              icon: AppIcons.filter.svg,
+            ),
+          ),
         ],
       ),
     );
@@ -122,6 +114,14 @@ class _ProductsViewState extends ProductsModal {
             product: filteredProducts[index],
           );
         },
+      ),
+    );
+  }
+
+  Expanded get loader {
+    return const Expanded(
+      child: Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
