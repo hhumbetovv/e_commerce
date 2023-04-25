@@ -1,13 +1,14 @@
-import 'package:e_commerce/constants/app_fonts.dart';
-import 'package:e_commerce/constants/color_constants.dart';
-import 'package:e_commerce/constants/string_constants.dart';
-import 'package:e_commerce/cubits/catalog/catalog_cubit.dart';
-import 'package:e_commerce/cubits/category/category_cubit.dart';
-import 'package:e_commerce/cubits/favorite/favorite_cubit.dart';
-import 'package:e_commerce/cubits/product/product_cubit.dart';
-import 'package:e_commerce/screens/home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../constants/app_fonts.dart';
+import '../../constants/color_constants.dart';
+import '../../constants/string_constants.dart';
+import '../../cubits/catalog/catalog_cubit.dart';
+import '../../cubits/category/category_cubit.dart';
+import '../../cubits/favorite/favorite_cubit.dart';
+import '../../cubits/product/product_cubit.dart';
+import '../home/home_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({

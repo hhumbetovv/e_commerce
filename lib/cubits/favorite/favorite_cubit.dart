@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:e_commerce/enums/cache_items.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../enums/cache_items.dart';
 
 part 'favorite_state.dart';
 

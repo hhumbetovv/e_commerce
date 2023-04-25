@@ -1,4 +1,4 @@
-import 'package:e_commerce/constants/string_constants.dart';
+import '../constants/string_constants.dart';
 
 enum SortParameters {
   priceHighToLow(StringConstants.sortPriceHighToLow),

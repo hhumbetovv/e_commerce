@@ -1,15 +1,15 @@
-import 'package:e_commerce/cubits/catalog/catalog_cubit.dart';
-import 'package:e_commerce/cubits/product/product_cubit.dart';
-import 'package:e_commerce/models/product.dart';
-import 'package:e_commerce/screens/catalog/components/catalog_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants/app_fonts.dart';
 import '../../constants/string_constants.dart';
+import '../../cubits/catalog/catalog_cubit.dart';
+import '../../cubits/product/product_cubit.dart';
 import '../../models/category.dart';
+import '../../models/product.dart';
 import '../../widgets/search.dart';
 import 'catalog_modal.dart';
+import 'components/catalog_list_tile.dart';
 
 class CatalogView extends StatefulWidget {
   const CatalogView({

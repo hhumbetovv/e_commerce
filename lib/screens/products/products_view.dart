@@ -1,14 +1,14 @@
-import 'package:e_commerce/models/category.dart';
-import 'package:e_commerce/screens/products/components/product_card.dart';
-import 'package:e_commerce/screens/products/products_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/string_constants.dart';
 import '../../enums/icons.dart';
+import '../../models/category.dart';
 import '../../widgets/app_inkwell.dart';
 import '../../widgets/search.dart';
 import '../../widgets/small_button.dart';
+import 'components/product_card.dart';
+import 'products_modal.dart';
 
 class ProductsView extends StatefulWidget {
   const ProductsView({

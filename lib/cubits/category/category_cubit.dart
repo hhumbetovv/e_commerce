@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/models/category.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
+import '../../models/category.dart';
 
 part 'category_state.dart';
 

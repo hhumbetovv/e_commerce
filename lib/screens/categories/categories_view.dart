@@ -1,10 +1,10 @@
-import 'package:e_commerce/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/app_fonts.dart';
 import '../../constants/string_constants.dart';
 import '../../enums/icons.dart';
+import '../../models/category.dart';
 import '../../widgets/app_inkwell.dart';
 import '../../widgets/search.dart';
 import 'categories_modal.dart';

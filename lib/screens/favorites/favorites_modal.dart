@@ -1,11 +1,12 @@
-import 'package:e_commerce/cubits/favorite/favorite_cubit.dart';
-import 'package:e_commerce/cubits/product/product_cubit.dart';
-import 'package:e_commerce/enums/sort_parameters.dart';
-import 'package:e_commerce/models/product.dart';
-import 'package:e_commerce/screens/favorites/favorites_view.dart';
-import 'package:e_commerce/screens/products/components/sort_modal_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../cubits/favorite/favorite_cubit.dart';
+import '../../cubits/product/product_cubit.dart';
+import '../../enums/sort_parameters.dart';
+import '../../models/product.dart';
+import '../products/components/sort_modal_sheet.dart';
+import 'favorites_view.dart';
 
 abstract class FavoritesModal extends State<FavoritesView> {
   String searchText = '';

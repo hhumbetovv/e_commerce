@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:e_commerce/models/category.dart';
-import 'package:e_commerce/screens/categories/categories_view.dart';
-import 'package:e_commerce/screens/products/products_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/app_fonts.dart';
 import '../../../constants/color_constants.dart';
 import '../../../constants/string_constants.dart';
 import '../../../enums/images.dart';
+import '../../../models/category.dart';
 import '../../../widgets/app_inkwell.dart';
+import '../../categories/categories_view.dart';
+import '../../products/products_view.dart';
 
 class CatalogListTile extends StatelessWidget {
   const CatalogListTile({

@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:e_commerce/constants/app_fonts.dart';
-import 'package:e_commerce/constants/color_constants.dart';
-import 'package:e_commerce/enums/icons.dart';
-import 'package:e_commerce/models/product.dart';
-import 'package:e_commerce/widgets/app_inkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../constants/app_fonts.dart';
+import '../../../constants/color_constants.dart';
+import '../../../enums/icons.dart';
+import '../../../models/product.dart';
+import '../../../widgets/app_inkwell.dart';
 
 class FavoriteProductCard extends StatelessWidget {
   const FavoriteProductCard({

@@ -1,10 +1,10 @@
-import 'package:e_commerce/cubits/favorite/favorite_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/app_fonts.dart';
 import '../../constants/color_constants.dart';
+import '../../cubits/favorite/favorite_cubit.dart';
 import '../../enums/icons.dart';
 import '../../models/product.dart';
 import '../../widgets/app_inkwell.dart';

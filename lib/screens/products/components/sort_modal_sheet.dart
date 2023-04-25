@@ -1,12 +1,13 @@
-import 'package:e_commerce/constants/app_fonts.dart';
-import 'package:e_commerce/constants/color_constants.dart';
-import 'package:e_commerce/constants/string_constants.dart';
-import 'package:e_commerce/enums/icons.dart';
-import 'package:e_commerce/enums/sort_parameters.dart';
-import 'package:e_commerce/widgets/app_inkwell.dart';
-import 'package:e_commerce/widgets/large_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../constants/app_fonts.dart';
+import '../../../constants/color_constants.dart';
+import '../../../constants/string_constants.dart';
+import '../../../enums/icons.dart';
+import '../../../enums/sort_parameters.dart';
+import '../../../widgets/app_inkwell.dart';
+import '../../../widgets/large_button.dart';
 
 Future<SortParameters?> sortModalSheet(BuildContext context, SortParameters selectedParameter) {
   return showModalBottomSheet<SortParameters>(

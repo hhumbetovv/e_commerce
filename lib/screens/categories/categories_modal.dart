@@ -1,8 +1,8 @@
-import 'package:e_commerce/cubits/category/category_cubit.dart';
-import 'package:e_commerce/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../cubits/category/category_cubit.dart';
+import '../../models/category.dart';
 import 'categories_view.dart';
 
 abstract class CategoriesModal extends State<CategoriesView> {
