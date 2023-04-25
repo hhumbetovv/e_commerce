@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/cubits/catalog/catalog_cubit.dart';
 import 'package:e_commerce/cubits/category/category_cubit.dart';
+import 'package:e_commerce/cubits/favorite/favorite_cubit.dart';
 import 'package:e_commerce/cubits/product/product_cubit.dart';
 import 'package:e_commerce/initialize/app_onset.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -47,6 +48,9 @@ class ECommerce extends StatelessWidget {
             firestore: FirebaseFirestore.instance,
             storage: FirebaseStorage.instance,
           ),
+        ),
+        BlocProvider<FavoriteCubit>(
+          create: (context) => FavoriteCubit(),
         ),
       ],
       child: MaterialApp(

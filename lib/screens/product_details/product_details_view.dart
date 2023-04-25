@@ -1,6 +1,6 @@
-import 'package:e_commerce/enums/cache_items.dart';
-import 'package:e_commerce/screens/product_details/product_details_modal.dart';
+import 'package:e_commerce/cubits/favorite/favorite_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/app_fonts.dart';
@@ -10,19 +10,14 @@ import '../../models/product.dart';
 import '../../widgets/app_inkwell.dart';
 import 'components/product_image_view.dart';
 
-class ProductDetailsView extends StatefulWidget {
+class ProductDetailsView extends StatelessWidget {
   const ProductDetailsView({
-    Key? key,
     required this.product,
+    Key? key,
   }) : super(key: key);
 
   final ProductModel product;
 
-  @override
-  State<ProductDetailsView> createState() => _ProductDetailsViewState();
-}
-
-class _ProductDetailsViewState extends ProductDetailsModal {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +65,7 @@ class _ProductDetailsViewState extends ProductDetailsModal {
       backgroundColor: Colors.transparent,
       expandedHeight: 458,
       flexibleSpace: FlexibleSpaceBar(
-        background: ProductImageView(imageUrls: widget.product.imageUrls),
+        background: ProductImageView(imageUrls: product.imageUrls),
       ),
     );
   }
@@ -89,24 +84,33 @@ class _ProductDetailsViewState extends ProductDetailsModal {
     );
   }
 
-  AppInkWell get toggleFavoriteButton {
-    bool isFavorite = CacheItems.favorites.getStringList.contains(widget.product.id);
-    return AppInkWell(
-      onTap: toggleFavorite,
-      type: InkType.noSplash,
-      child: CircleAvatar(
-        backgroundColor: ColorConstants.grey[100],
-        radius: 18,
-        child: SvgPicture.asset(
-          isFavorite ? AppIcons.heartFilled.svg : AppIcons.heart.svg,
-        ),
-      ),
+  BlocBuilder get toggleFavoriteButton {
+    return BlocBuilder<FavoriteCubit, FavoriteState>(
+      builder: (context, state) {
+        if (state is FavoriteLoaded) {
+          bool isFavorite = state.favoriteIds.contains(product.id);
+          return AppInkWell(
+            onTap: () {
+              context.read<FavoriteCubit>().toggleProduct(product.id);
+            },
+            type: InkType.noSplash,
+            child: CircleAvatar(
+              backgroundColor: ColorConstants.grey[100],
+              radius: 18,
+              child: SvgPicture.asset(
+                isFavorite ? AppIcons.heartFilled.svg : AppIcons.heart.svg,
+              ),
+            ),
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 
   Text get title {
     return Text(
-      widget.product.title,
+      product.title,
       overflow: TextOverflow.ellipsis,
       style: AppFonts.headingSmall,
     );
@@ -114,14 +118,14 @@ class _ProductDetailsViewState extends ProductDetailsModal {
 
   Text get price {
     return Text(
-      '${widget.product.price}\u20BC',
+      '${product.price}\u20BC',
       style: AppFonts.headingSmall,
     );
   }
 
   Text get description {
     return Text(
-      widget.product.description,
+      product.description,
       style: AppFonts.bodyMedium.copyWith(color: ColorConstants.grey),
     );
   }
@@ -130,7 +134,7 @@ class _ProductDetailsViewState extends ProductDetailsModal {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: widget.product.parameters.map((parameter) {
+      children: product.parameters.map((parameter) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(

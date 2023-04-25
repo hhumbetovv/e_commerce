@@ -3,6 +3,7 @@ import 'package:e_commerce/constants/color_constants.dart';
 import 'package:e_commerce/constants/string_constants.dart';
 import 'package:e_commerce/cubits/catalog/catalog_cubit.dart';
 import 'package:e_commerce/cubits/category/category_cubit.dart';
+import 'package:e_commerce/cubits/favorite/favorite_cubit.dart';
 import 'package:e_commerce/cubits/product/product_cubit.dart';
 import 'package:e_commerce/screens/home/home_view.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future<void> _loadData() async {
+    context.read<FavoriteCubit>().getFavoriteProducts();
     try {
       await Future.wait([
         _catalogCubit.getCatalogs(),
@@ -56,7 +58,7 @@ class _SplashViewState extends State<SplashView> {
         _navigateToHome();
       }
     } catch (error) {
-      debugPrint(error.toString());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
     }
   }
 

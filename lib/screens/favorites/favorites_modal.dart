@@ -1,5 +1,5 @@
+import 'package:e_commerce/cubits/favorite/favorite_cubit.dart';
 import 'package:e_commerce/cubits/product/product_cubit.dart';
-import 'package:e_commerce/enums/cache_items.dart';
 import 'package:e_commerce/enums/sort_parameters.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/screens/favorites/favorites_view.dart';
@@ -10,17 +10,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 abstract class FavoritesModal extends State<FavoritesView> {
   String searchText = '';
   bool isLoading = false;
-  late final List<ProductModel> products;
+  late List<ProductModel> products;
   SortParameters selectedSortParameter = SortParameters.news;
 
   @override
   void initState() {
     super.initState();
     setLoading(true);
-    products = (context.read<ProductCubit>().state.props as List<ProductModel>).where((product) {
-      return CacheItems.favorites.getStringList.contains(product.id);
-    }).toList();
-    debugPrint(products.toString());
+    products = context.read<ProductCubit>().state.props as List<ProductModel>;
+    setFavoriteProducts(context.read<FavoriteCubit>().state.props as List<String>);
     sortProducts();
     setLoading(false);
   }
@@ -29,13 +27,19 @@ abstract class FavoritesModal extends State<FavoritesView> {
     setState(() => isLoading = value);
   }
 
+  void setFavoriteProducts(List<String> favoriteIds) {
+    products = context.read<ProductCubit>().state.props as List<ProductModel>;
+    products = products.where((product) {
+      return favoriteIds.contains(product.id);
+    }).toList();
+  }
+
   void showSortingSelections() async {
     final SortParameters? response = await sortModalSheet(context, selectedSortParameter);
     setLoading(true);
     if (response != null) {
       setState(() {
         selectedSortParameter = response;
-        sortProducts();
       });
     }
     setLoading(false);
@@ -60,9 +64,7 @@ abstract class FavoritesModal extends State<FavoritesView> {
 
   void unFavorite(String id) {
     setState(() {
-      List<String> favoriteIds = CacheItems.favorites.getStringList;
-      favoriteIds.remove(id);
-      CacheItems.favorites.setStringList(favoriteIds);
+      context.read<FavoriteCubit>().removeProduct(id);
       products.removeWhere((product) => product.id == id);
     });
   }

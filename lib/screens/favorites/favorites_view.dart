@@ -1,11 +1,13 @@
 import 'package:e_commerce/constants/app_fonts.dart';
 import 'package:e_commerce/constants/string_constants.dart';
+import 'package:e_commerce/cubits/favorite/favorite_cubit.dart';
 import 'package:e_commerce/enums/icons.dart';
 import 'package:e_commerce/screens/favorites/components/favorite_product_card.dart';
 import 'package:e_commerce/screens/favorites/favorites_modal.dart';
 import 'package:e_commerce/widgets/search.dart';
 import 'package:e_commerce/widgets/small_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoritesView extends StatefulWidget {
   const FavoritesView({
@@ -21,17 +23,33 @@ class _FavoritesViewState extends FavoritesModal {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: [
-          title,
-          if (products.isEmpty)
-            const Expanded(child: Center(child: Text('Is Empty')))
-          else ...[
-            search,
-            sortAndFilterRow,
-            productList,
-          ]
-        ],
+      body: BlocBuilder<FavoriteCubit, FavoriteState>(
+        builder: (context, state) {
+          if (state is FavoriteLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is FavoriteLoaded) {
+            setFavoriteProducts(state.favoriteIds);
+            sortProducts();
+            return Column(
+              children: [
+                title,
+                if (products.isEmpty)
+                  const Expanded(
+                    child: Center(child: Text('Is Empty')),
+                  )
+                else ...[
+                  search,
+                  sortAndFilterRow,
+                  productList,
+                ]
+              ],
+            );
+          }
+          return const SizedBox();
+        },
       ),
     );
   }
