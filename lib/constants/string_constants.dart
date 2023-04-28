@@ -22,6 +22,8 @@ class StringConstants {
   static const String filterHintText = 'Filtr';
 
   static const String favoritesText = 'Sevimlilər';
+  static const String favoritesIsEmptyTitle = 'bura boşdur';
+  static const String favoritesIsEmptyText = 'əsas səhifədən istədiyiniz hər-hansı bir məhsulu əlavə edə bilərsiniz.';
 
   static const String parametersHeading = 'Parametrlər';
   static const String cancelText = 'Ləğv et';

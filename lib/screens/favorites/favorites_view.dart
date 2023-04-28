@@ -1,10 +1,13 @@
+import 'package:e_commerce/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/app_fonts.dart';
 import '../../constants/string_constants.dart';
 import '../../cubits/favorite/favorite_cubit.dart';
 import '../../enums/icons.dart';
+import '../../enums/images.dart';
 import '../../widgets/search.dart';
 import '../../widgets/small_button.dart';
 import 'components/favorite_product_card.dart';
@@ -34,20 +37,46 @@ class _FavoritesViewState extends FavoritesModal {
           if (state is FavoriteLoaded) {
             setFavoriteProducts(state.favoriteIds);
             sortProducts();
-            return Column(
-              children: [
-                title,
-                if (products.isEmpty)
-                  const Expanded(
-                    child: Center(child: Text('Is Empty')),
+            return products.isEmpty
+                ? Column(
+                    children: [
+                      title,
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: SvgPicture.asset(AppImages.surprised.svg),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 5),
+                                child: Text(
+                                  StringConstants.favoritesIsEmptyTitle,
+                                  style: AppFonts.headingSmall,
+                                ),
+                              ),
+                              Text(
+                                StringConstants.favoritesIsEmptyText,
+                                style: AppFonts.bodyMedium.copyWith(color: ColorConstants.grey),
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   )
-                else ...[
-                  search,
-                  sortAndFilterRow,
-                  productList,
-                ]
-              ],
-            );
+                : Column(
+                    children: [
+                      title,
+                      search,
+                      sortAndFilterRow,
+                      productList,
+                    ],
+                  );
           }
           return const SizedBox();
         },

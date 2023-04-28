@@ -4,6 +4,7 @@ enum AppImages {
   friendly('friendly'),
   dissatisfied('dissatisfied'),
   disappointed('disappointed'),
+  surprised('surprised'),
   allProductsCover('all-products-cover');
 
   const AppImages(this.value);
