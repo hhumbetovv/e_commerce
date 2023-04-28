@@ -1,9 +1,9 @@
-import 'package:e_commerce/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/app_fonts.dart';
+import '../../constants/color_constants.dart';
 import '../../constants/string_constants.dart';
 import '../../cubits/favorite/favorite_cubit.dart';
 import '../../enums/icons.dart';
@@ -37,46 +37,23 @@ class _FavoritesViewState extends FavoritesModal {
           if (state is FavoriteLoaded) {
             setFavoriteProducts(state.favoriteIds);
             sortProducts();
-            return products.isEmpty
-                ? Column(
-                    children: [
-                      title,
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 16),
-                                child: SvgPicture.asset(AppImages.surprised.svg),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
-                                child: Text(
-                                  StringConstants.favoritesIsEmptyTitle,
-                                  style: AppFonts.headingSmall,
-                                ),
-                              ),
-                              Text(
-                                StringConstants.favoritesIsEmptyText,
-                                style: AppFonts.bodyMedium.copyWith(color: ColorConstants.grey),
-                                textAlign: TextAlign.center,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                : Column(
-                    children: [
-                      title,
-                      search,
-                      sortAndFilterRow,
-                      productList,
-                    ],
-                  );
+            if (products.isEmpty) {
+              return Column(
+                children: [
+                  title,
+                  empty,
+                ],
+              );
+            } else {
+              return Column(
+                children: [
+                  title,
+                  search,
+                  sortAndFilterRow,
+                  productList,
+                ],
+              );
+            }
           }
           return const SizedBox();
         },
@@ -92,6 +69,35 @@ class _FavoritesViewState extends FavoritesModal {
         StringConstants.favoritesText,
         textAlign: TextAlign.center,
         style: AppFonts.headingMedium,
+      ),
+    );
+  }
+
+  Expanded get empty {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: SvgPicture.asset(AppImages.surprised.svg),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: Text(
+                StringConstants.favoritesIsEmptyTitle,
+                style: AppFonts.headingSmall,
+              ),
+            ),
+            Text(
+              StringConstants.favoritesIsEmptyText,
+              style: AppFonts.bodyMedium.copyWith(color: ColorConstants.grey),
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
       ),
     );
   }

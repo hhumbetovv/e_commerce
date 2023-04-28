@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_commerce/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/app_fonts.dart';
@@ -92,7 +93,7 @@ class ProductCard extends StatelessWidget {
       product.description,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: AppFonts.bodyMinimal.copyWith(
+      style: AppFonts.bodyMinimal.regular.copyWith(
         color: ColorConstants.grey,
       ),
     );

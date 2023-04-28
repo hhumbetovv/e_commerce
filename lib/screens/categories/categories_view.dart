@@ -26,13 +26,16 @@ class _CategoriesViewState extends CategoriesModal {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category.title),
+        title: Text(
+          widget.category.title,
+          style: AppFonts.bodyMedium,
+        ),
         leading: goBackButton(context),
       ),
       body: Column(
         children: [
           search,
-          text,
+          title,
           categoryList,
         ],
       ),
@@ -63,7 +66,7 @@ class _CategoriesViewState extends CategoriesModal {
     );
   }
 
-  Container get text {
+  Container get title {
     return Container(
       padding: const EdgeInsets.all(16),
       alignment: Alignment.centerLeft,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../constants/app_fonts.dart';
 import '../../constants/string_constants.dart';
 import '../../enums/icons.dart';
 import '../../models/category.dart';
@@ -27,7 +28,10 @@ class _ProductsViewState extends ProductsModal {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category?.title ?? StringConstants.allProductsText),
+        title: Text(
+          widget.category?.title ?? StringConstants.allProductsText,
+          style: AppFonts.bodyMedium,
+        ),
         leading: goBackButton(context),
       ),
       body: Column(

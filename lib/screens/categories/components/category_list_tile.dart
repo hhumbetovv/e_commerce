@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_commerce/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/app_fonts.dart';
@@ -66,8 +67,7 @@ class CategoryListTile extends StatelessWidget {
     return Text(
       !isClosed ? category.title : StringConstants.allProductsText,
       overflow: TextOverflow.ellipsis,
-      // style: AppFonts.bodyLarge,
-      style: AppFonts.bodyMedium,
+      style: AppFonts.bodyMedium.regular,
     );
   }
 }

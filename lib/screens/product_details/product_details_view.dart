@@ -1,3 +1,4 @@
+import 'package:e_commerce/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -126,7 +127,7 @@ class ProductDetailsView extends StatelessWidget {
   Text get description {
     return Text(
       product.description,
-      style: AppFonts.bodyMedium.copyWith(color: ColorConstants.grey),
+      style: AppFonts.bodyMedium.regular.copyWith(color: ColorConstants.grey),
     );
   }
 
@@ -147,7 +148,7 @@ class ProductDetailsView extends StatelessWidget {
               ),
               Text(
                 parameter.values.isNotEmpty ? parameter.values.join(', ') : '—',
-                style: AppFonts.bodyLarge.copyWith(
+                style: AppFonts.bodyLarge.regular.copyWith(
                   color: ColorConstants.grey,
                 ),
               ),
