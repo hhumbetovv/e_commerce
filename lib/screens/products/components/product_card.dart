@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:e_commerce/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/app_fonts.dart';
 import '../../../constants/color_constants.dart';
 import '../../../enums/ink_type.dart';
+import '../../../extensions/text_style_extension.dart';
 import '../../../models/product.dart';
 import '../../../widgets/app_inkwell.dart';
 import '../../product_details/product_details_view.dart';

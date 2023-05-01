@@ -142,25 +142,39 @@ class _FavoritesViewState extends FavoritesModal {
   }
 
   Expanded get productList {
-    final searchedProducts = products.where((product) {
+    final searchedProducts = filteredProducts.where((product) {
       return product.title.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
-    return Expanded(
-      child: ListView.separated(
-        padding: const EdgeInsets.all(16),
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        itemCount: searchedProducts.length,
-        itemBuilder: (context, index) {
-          return FavoriteProductCard(
-            product: searchedProducts[index],
-            unFavorite: unFavorite,
+    return searchedProducts.isEmpty
+        ? Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(AppImages.dissatisfied.svg),
+                const SizedBox(height: 16),
+                Text(
+                  StringConstants.notFound,
+                  style: AppFonts.bodyLarge,
+                ),
+              ],
+            ),
+          )
+        : Expanded(
+            child: ListView.separated(
+              padding: const EdgeInsets.all(16),
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              itemCount: searchedProducts.length,
+              itemBuilder: (context, index) {
+                return FavoriteProductCard(
+                  product: searchedProducts[index],
+                  unFavorite: unFavorite,
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(height: 24);
+              },
+            ),
           );
-        },
-        separatorBuilder: (context, index) {
-          return const SizedBox(height: 24);
-        },
-      ),
-    );
   }
 }

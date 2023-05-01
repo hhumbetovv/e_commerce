@@ -5,6 +5,7 @@ import '../../constants/app_fonts.dart';
 import '../../constants/string_constants.dart';
 import '../../enums/button_type.dart';
 import '../../enums/icons.dart';
+import '../../enums/images.dart';
 import '../../enums/ink_type.dart';
 import '../../models/category.dart';
 import '../../widgets/app_inkwell.dart';
@@ -100,28 +101,42 @@ class _ProductsViewState extends ProductsModal {
   }
 
   Expanded get productList {
-    final searchedProducts = products.where((product) {
+    final searchedProducts = filteredProducts.where((product) {
       return product.title.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
-    return Expanded(
-      child: GridView.builder(
-        padding: const EdgeInsets.all(16),
-        physics: const BouncingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: searchedProducts.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 24,
-          mainAxisExtent: 268,
-        ),
-        itemBuilder: (context, index) {
-          return ProductCard(
-            product: searchedProducts[index],
+    return searchedProducts.isEmpty
+        ? Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(AppImages.dissatisfied.svg),
+                const SizedBox(height: 16),
+                Text(
+                  StringConstants.notFound,
+                  style: AppFonts.bodyLarge,
+                ),
+              ],
+            ),
+          )
+        : Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(16),
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: searchedProducts.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 24,
+                mainAxisExtent: 268,
+              ),
+              itemBuilder: (context, index) {
+                return ProductCard(
+                  product: searchedProducts[index],
+                );
+              },
+            ),
           );
-        },
-      ),
-    );
   }
 
   Expanded get loader {

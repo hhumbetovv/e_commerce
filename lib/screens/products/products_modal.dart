@@ -15,6 +15,8 @@ abstract class ProductsModal extends State<ProductsView> {
   String searchText = '';
   bool isLoading = false;
   late final List<ProductModel> products;
+  late List<ProductModel> filteredProducts;
+
   SortParameters selectedSortParameter = SortParameters.news;
   FilterModel filter = FilterModel(
     minPrice: 0,
@@ -30,6 +32,7 @@ abstract class ProductsModal extends State<ProductsView> {
     products = (context.read<ProductCubit>().state.props as List<ProductModel>).where((product) {
       return widget.category != null ? widget.category!.products.contains(product.id) : true;
     }).toList();
+    filteredProducts = products;
     sortProducts();
     setLoading(false);
   }
@@ -51,7 +54,7 @@ abstract class ProductsModal extends State<ProductsView> {
   }
 
   void sortProducts() {
-    products.sort((a, b) {
+    filteredProducts.sort((a, b) {
       switch (selectedSortParameter) {
         case SortParameters.priceHighToLow:
           return b.price.compareTo(a.price);
@@ -72,10 +75,39 @@ abstract class ProductsModal extends State<ProductsView> {
       setState(() {
         filter = response;
         filterProducts();
+        sortProducts();
       });
     }
     setLoading(false);
   }
 
-  void filterProducts() {}
+  void filterProducts() {
+    filteredProducts = products.where((product) {
+      final bool colorCondition = product.parameters
+          .singleWhere((parameter) {
+            return parameter.parameterName == 'Rəngləri';
+          })
+          .values
+          .any((color) {
+            return filter.colors.map((filterColor) {
+              return filterColor.value;
+            }).contains(color);
+          });
+
+      final bool sizeCondition = product.parameters
+          .singleWhere((parameter) {
+            return parameter.parameterName == 'Mövcud ölçüləri';
+          })
+          .values
+          .any((size) {
+            return filter.sizes.map((filterSize) {
+              return filterSize.value;
+            }).contains(size);
+          });
+
+      final bool priceCondition = product.price > filter.minPrice && product.price < filter.maxPrice;
+
+      return colorCondition && sizeCondition && priceCondition;
+    }).toList();
+  }
 }

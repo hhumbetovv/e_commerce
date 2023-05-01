@@ -1,4 +1,3 @@
-import 'package:e_commerce/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,6 +7,7 @@ import '../../constants/color_constants.dart';
 import '../../cubits/favorite/favorite_cubit.dart';
 import '../../enums/icons.dart';
 import '../../enums/ink_type.dart';
+import '../../extensions/text_style_extension.dart';
 import '../../models/product.dart';
 import '../../widgets/app_inkwell.dart';
 import 'components/product_image_view.dart';

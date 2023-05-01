@@ -1,4 +1,3 @@
-import 'package:e_commerce/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -10,6 +9,7 @@ import '../enums/icons.dart';
 import '../enums/ink_type.dart';
 import '../enums/product_colors.dart';
 import '../enums/product_sizes.dart';
+import '../extensions/text_style_extension.dart';
 import '../models/filter.dart';
 import '../widgets/app_inkwell.dart';
 import '../widgets/large_button.dart';
@@ -45,11 +45,13 @@ class FilterModalBody extends StatefulWidget {
 
 class _FilterModalBodyState extends State<FilterModalBody> {
   late FilterModel currentFilter;
+  late double rangeMaxValue;
 
   @override
   void initState() {
     super.initState();
     currentFilter = widget.filter.copyWith();
+    rangeMaxValue = currentFilter.maxPrice.toDouble();
   }
 
   @override
@@ -86,7 +88,7 @@ class _FilterModalBodyState extends State<FilterModalBody> {
                 const SizedBox(height: 12),
                 RangeSlider(
                   values: RangeValues(currentFilter.minPrice.toDouble(), currentFilter.maxPrice.toDouble()),
-                  max: currentFilter.maxPrice.toDouble(),
+                  max: rangeMaxValue,
                   activeColor: ColorConstants.primary[400],
                   inactiveColor: ColorConstants.grey[200],
                   onChanged: (RangeValues values) {
@@ -112,7 +114,6 @@ class _FilterModalBodyState extends State<FilterModalBody> {
                   valueCallBack: (value) {
                     setState(() {
                       final colorsRef = [...currentFilter.colors];
-                      debugPrint(colorsRef.toString());
                       if (currentFilter.colors.contains(value)) {
                         colorsRef.remove(value);
                       } else {
@@ -138,7 +139,6 @@ class _FilterModalBodyState extends State<FilterModalBody> {
                   valueCallBack: (value) {
                     setState(() {
                       final sizesRef = [...currentFilter.sizes];
-                      debugPrint(sizesRef.toString());
                       if (currentFilter.sizes.contains(value)) {
                         sizesRef.remove(value);
                       } else {
@@ -154,8 +154,7 @@ class _FilterModalBodyState extends State<FilterModalBody> {
                     text: StringConstants.showProducts,
                     type: ButtonType.primary,
                     onTap: () {
-                      // TODO: Fix this lənətə gələsi bug`ı
-                      debugPrint(currentFilter.toString());
+                      Navigator.pop(context, currentFilter);
                     },
                   ),
                 ),
@@ -229,9 +228,10 @@ class _ExpansionListTileState extends State<ExpansionListTile> with TickerProvid
           ),
           secondChild: Column(children: [
             ParameterSelection(
-                title: 'Hamısı',
-                isSelected: widget.selectedValues.length == widget.allValues.length,
-                onTap: widget.selectAll),
+              title: 'Hamısı',
+              isSelected: widget.selectedValues.length == widget.allValues.length,
+              onTap: widget.selectAll,
+            ),
             ...widget.allValues.map((item) {
               return ParameterSelection(
                 title: item.value,

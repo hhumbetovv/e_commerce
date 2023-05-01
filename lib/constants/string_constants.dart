@@ -24,6 +24,7 @@ class StringConstants {
   static const String favoritesText = 'Sevimlilər';
   static const String favoritesIsEmptyTitle = 'bura boşdur';
   static const String favoritesIsEmptyText = 'əsas səhifədən istədiyiniz hər-hansı bir məhsulu əlavə edə bilərsiniz.';
+  static const String notFound = 'axtardığınız parametrlərə\nuyğun məhsul tapılmadı';
 
   static const String parametersHeading = 'Parametrlər';
   static const String productColorTitle = 'Rəng';
