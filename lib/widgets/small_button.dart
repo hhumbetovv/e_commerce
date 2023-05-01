@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../constants/app_fonts.dart';
 import '../constants/color_constants.dart';
+import '../enums/button_type.dart';
 import 'app_inkwell.dart';
 
 class SmallButton extends StatelessWidget {
@@ -23,44 +24,17 @@ class SmallButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color backgroundColor;
-    final bool isBordered;
-    final InkType inkType;
-
-    switch (type) {
-      case ButtonType.primary:
-        backgroundColor = ColorConstants.primary;
-        isBordered = false;
-        inkType = InkType.splash;
-        break;
-      case ButtonType.secondary:
-        backgroundColor = ColorConstants.grey[100]!;
-        isBordered = false;
-        inkType = InkType.sparkle;
-        break;
-      case ButtonType.outlined:
-        backgroundColor = Colors.transparent;
-        isBordered = true;
-        inkType = InkType.ripple;
-        break;
-      case ButtonType.ghost:
-        backgroundColor = Colors.transparent;
-        isBordered = false;
-        inkType = InkType.noSplash;
-        break;
-    }
-
     return SizedBox(
       child: AppInkWell(
         onTap: onTap,
-        type: inkType,
+        type: type.inkType,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7.5),
           width: isFullWidth ? double.maxFinite : null,
           decoration: BoxDecoration(
-            color: backgroundColor,
+            color: type.color,
             borderRadius: BorderRadius.circular(4),
-            border: isBordered ? Border.all(color: ColorConstants.black) : null,
+            border: type.isBordered ? Border.all(color: ColorConstants.black) : null,
           ),
           child: content,
         ),
@@ -93,11 +67,4 @@ class SmallButton extends StatelessWidget {
       style: AppFonts.bodySmall,
     );
   }
-}
-
-enum ButtonType {
-  primary,
-  secondary,
-  outlined,
-  ghost,
 }

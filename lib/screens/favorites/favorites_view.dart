@@ -6,6 +6,7 @@ import '../../constants/app_fonts.dart';
 import '../../constants/color_constants.dart';
 import '../../constants/string_constants.dart';
 import '../../cubits/favorite/favorite_cubit.dart';
+import '../../enums/button_type.dart';
 import '../../enums/icons.dart';
 import '../../enums/images.dart';
 import '../../widgets/search.dart';

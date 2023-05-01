@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../components/filter_modal_sheet.dart';
+import '../../components/sort_modal_sheet.dart';
 import '../../cubits/product/product_cubit.dart';
+import '../../enums/product_colors.dart';
+import '../../enums/product_sizes.dart';
 import '../../enums/sort_parameters.dart';
+import '../../models/filter.dart';
 import '../../models/product.dart';
-import 'components/sort_modal_sheet.dart';
 import 'products_view.dart';
 
 abstract class ProductsModal extends State<ProductsView> {
@@ -12,6 +16,12 @@ abstract class ProductsModal extends State<ProductsView> {
   bool isLoading = false;
   late final List<ProductModel> products;
   SortParameters selectedSortParameter = SortParameters.news;
+  FilterModel filter = FilterModel(
+    minPrice: 0,
+    maxPrice: 50,
+    colors: ProductColors.values,
+    sizes: ProductSizes.values,
+  );
 
   @override
   void initState() {
@@ -55,5 +65,17 @@ abstract class ProductsModal extends State<ProductsView> {
     });
   }
 
-  void showFilterSelections() {}
+  void showFilterSelections() async {
+    final FilterModel? response = await filterModalSheet(context, filter);
+    setLoading(true);
+    if (response != null) {
+      setState(() {
+        filter = response;
+        filterProducts();
+      });
+    }
+    setLoading(false);
+  }
+
+  void filterProducts() {}
 }

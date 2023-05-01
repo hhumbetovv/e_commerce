@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants/color_constants.dart';
+import '../enums/ink_type.dart';
 
 class AppInkWell extends StatelessWidget {
   const AppInkWell({
@@ -16,23 +17,6 @@ class AppInkWell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final InteractiveInkFeatureFactory? splashFactory;
-
-    switch (type) {
-      case InkType.ripple:
-        splashFactory = InkRipple.splashFactory;
-        break;
-      case InkType.sparkle:
-        splashFactory = InkSparkle.splashFactory;
-        break;
-      case InkType.splash:
-        splashFactory = InkSplash.splashFactory;
-        break;
-      case InkType.noSplash:
-        splashFactory = null;
-        break;
-    }
-
     return Stack(
       clipBehavior: Clip.antiAlias,
       alignment: Alignment.center,
@@ -43,9 +27,9 @@ class AppInkWell extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              highlightColor: splashFactory == null ? Colors.transparent : ColorConstants.white.withOpacity(0.4),
-              splashColor: splashFactory == null ? Colors.transparent : ColorConstants.white.withOpacity(0.4),
-              splashFactory: splashFactory,
+              highlightColor: type.value == null ? Colors.transparent : ColorConstants.white.withOpacity(0.4),
+              splashColor: type.value == null ? Colors.transparent : ColorConstants.white.withOpacity(0.4),
+              splashFactory: type.value,
               onTap: onTap,
             ),
           ),
@@ -53,11 +37,4 @@ class AppInkWell extends StatelessWidget {
       ],
     );
   }
-}
-
-enum InkType {
-  ripple,
-  sparkle,
-  splash,
-  noSplash,
 }

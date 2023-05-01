@@ -8,6 +8,8 @@ class ColorConstants {
 
   static const Color black = Color(0xFF212121);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color secondary = Color(0xFFF5F5F5);
+
   static const MaterialColor grey = MaterialColor(
     0xFF9E9E9E,
     <int, Color>{

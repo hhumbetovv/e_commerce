@@ -7,6 +7,7 @@ import '../../constants/app_fonts.dart';
 import '../../constants/color_constants.dart';
 import '../../cubits/favorite/favorite_cubit.dart';
 import '../../enums/icons.dart';
+import '../../enums/ink_type.dart';
 import '../../models/product.dart';
 import '../../widgets/app_inkwell.dart';
 import 'components/product_image_view.dart';
@@ -78,7 +79,7 @@ class ProductDetailsView extends StatelessWidget {
       },
       type: InkType.noSplash,
       child: CircleAvatar(
-        backgroundColor: ColorConstants.grey[100],
+        backgroundColor: ColorConstants.secondary,
         radius: 18,
         child: SvgPicture.asset(AppIcons.arrowLeft.svg),
       ),
@@ -96,7 +97,7 @@ class ProductDetailsView extends StatelessWidget {
             },
             type: InkType.noSplash,
             child: CircleAvatar(
-              backgroundColor: ColorConstants.grey[100],
+              backgroundColor: ColorConstants.secondary,
               radius: 18,
               child: SvgPicture.asset(
                 isFavorite ? AppIcons.heartFilled.svg : AppIcons.heart.svg,

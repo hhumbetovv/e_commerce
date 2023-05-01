@@ -26,5 +26,9 @@ class StringConstants {
   static const String favoritesIsEmptyText = 'əsas səhifədən istədiyiniz hər-hansı bir məhsulu əlavə edə bilərsiniz.';
 
   static const String parametersHeading = 'Parametrlər';
+  static const String productColorTitle = 'Rəng';
+  static const String productSizeTitle = 'Ölçü';
+
+  static const String showProducts = 'Məhsulları göstər';
   static const String cancelText = 'Ləğv et';
 }

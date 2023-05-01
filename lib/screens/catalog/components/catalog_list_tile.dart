@@ -5,6 +5,7 @@ import '../../../constants/app_fonts.dart';
 import '../../../constants/color_constants.dart';
 import '../../../constants/string_constants.dart';
 import '../../../enums/images.dart';
+import '../../../enums/ink_type.dart';
 import '../../../models/category.dart';
 import '../../../widgets/app_inkwell.dart';
 import '../../categories/categories_view.dart';
@@ -44,7 +45,7 @@ class CatalogListTile extends StatelessWidget {
         height: 100,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: ColorConstants.grey[100],
+          color: ColorConstants.secondary,
         ),
         clipBehavior: Clip.antiAlias,
         child: Row(

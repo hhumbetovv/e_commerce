@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../constants/app_fonts.dart';
-import '../../../constants/color_constants.dart';
-import '../../../constants/string_constants.dart';
-import '../../../enums/icons.dart';
-import '../../../enums/sort_parameters.dart';
-import '../../../widgets/app_inkwell.dart';
-import '../../../widgets/large_button.dart';
+import '../constants/app_fonts.dart';
+import '../constants/color_constants.dart';
+import '../constants/string_constants.dart';
+import '../enums/button_type.dart';
+import '../enums/icons.dart';
+import '../enums/ink_type.dart';
+import '../enums/sort_parameters.dart';
+import '../widgets/app_inkwell.dart';
+import '../widgets/large_button.dart';
 
 Future<SortParameters?> sortModalSheet(BuildContext context, SortParameters selectedParameter) {
   return showModalBottomSheet<SortParameters>(
@@ -48,16 +50,18 @@ Future<SortParameters?> sortModalSheet(BuildContext context, SortParameters sele
                         parameter.getValue,
                         style: AppFonts.bodyLarge,
                       ),
-                      if (selectedParameter == parameter)
-                        CircleAvatar(
-                          radius: 12,
-                          backgroundColor: ColorConstants.primary,
-                          child: SvgPicture.asset(
-                            AppIcons.checkmark.svg,
-                            height: 16,
-                            width: 16,
-                          ),
-                        ),
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundColor:
+                            selectedParameter == parameter ? ColorConstants.primary : ColorConstants.secondary,
+                        child: selectedParameter == parameter
+                            ? SvgPicture.asset(
+                                AppIcons.checkmark.svg,
+                                height: 16,
+                                width: 16,
+                              )
+                            : null,
+                      ),
                     ],
                   ),
                 ),

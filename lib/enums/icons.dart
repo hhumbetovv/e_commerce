@@ -10,6 +10,7 @@ enum AppIcons {
   arrowLeft('arrow-left'),
   checkmark('checkmark'),
   clear('clear'),
+  chevronDown('chevron-down'),
   bag('bag');
 
   const AppIcons(this.value);

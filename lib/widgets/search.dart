@@ -26,7 +26,7 @@ class Search extends StatelessWidget {
         cursorColor: ColorConstants.primary,
         onChanged: onChanged,
         decoration: InputDecoration(
-          fillColor: ColorConstants.grey[100],
+          fillColor: ColorConstants.secondary,
           filled: true,
           prefixIcon: SvgPicture.asset(
             AppIcons.search.svg,

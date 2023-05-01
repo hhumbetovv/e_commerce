@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/app_fonts.dart';
 import '../../../constants/color_constants.dart';
+import '../../../enums/ink_type.dart';
 import '../../../models/product.dart';
 import '../../../widgets/app_inkwell.dart';
 import '../../product_details/product_details_view.dart';

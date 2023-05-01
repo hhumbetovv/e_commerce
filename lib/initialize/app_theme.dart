@@ -6,17 +6,17 @@ import '../constants/color_constants.dart';
 class AppTheme {
   static ThemeData theme = ThemeData(
     scaffoldBackgroundColor: ColorConstants.white,
-    colorScheme: ColorScheme(
+    colorScheme: const ColorScheme(
       brightness: Brightness.light,
       primary: ColorConstants.primary,
       onPrimary: ColorConstants.black,
-      secondary: ColorConstants.grey[100]!,
+      secondary: ColorConstants.secondary,
       onSecondary: ColorConstants.black,
       error: ColorConstants.red,
       onError: ColorConstants.white,
       background: ColorConstants.white,
       onBackground: ColorConstants.black,
-      surface: ColorConstants.grey[100]!,
+      surface: ColorConstants.secondary,
       onSurface: ColorConstants.black,
     ),
     appBarTheme: AppBarTheme(

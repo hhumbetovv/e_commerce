@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants/color_constants.dart';
+import '../../../enums/ink_type.dart';
 import '../../../widgets/app_inkwell.dart';
 
 class AppNavigationbar extends StatefulWidget {

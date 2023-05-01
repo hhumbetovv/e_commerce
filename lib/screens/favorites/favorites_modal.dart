@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../components/sort_modal_sheet.dart';
 import '../../cubits/favorite/favorite_cubit.dart';
 import '../../cubits/product/product_cubit.dart';
 import '../../enums/sort_parameters.dart';
 import '../../models/product.dart';
-import '../products/components/sort_modal_sheet.dart';
 import 'favorites_view.dart';
 
 abstract class FavoritesModal extends State<FavoritesView> {
