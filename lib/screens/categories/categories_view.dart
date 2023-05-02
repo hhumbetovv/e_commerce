@@ -5,7 +5,7 @@ import '../../constants/app_fonts.dart';
 import '../../constants/string_constants.dart';
 import '../../enums/icons.dart';
 import '../../enums/ink_type.dart';
-import '../../models/category.dart';
+import '../../utilities/refresh.dart';
 import '../../widgets/app_inkwell.dart';
 import '../../widgets/search.dart';
 import 'categories_modal.dart';
@@ -14,10 +14,13 @@ import 'components/category_list_tile.dart';
 class CategoriesView extends StatefulWidget {
   const CategoriesView({
     Key? key,
-    required this.category,
+    required this.id,
+    required this.isCatalog,
   }) : super(key: key);
 
-  final CategoryModel category;
+  final String id;
+  final bool isCatalog;
+
   @override
   State<CategoriesView> createState() => _CategoriesViewState();
 }
@@ -28,7 +31,7 @@ class _CategoriesViewState extends CategoriesModal {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.category.title,
+          category.title,
           style: AppFonts.bodyMedium,
         ),
         leading: goBackButton(context),
@@ -79,18 +82,21 @@ class _CategoriesViewState extends CategoriesModal {
   }
 
   Expanded get categoryList {
-    final searchedCategories = categories.where((categories) {
-      return categories.title.toLowerCase().contains(searchText.toLowerCase());
+    final searchedCategories = categories.where((element) {
+      return element.title.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
 
     return Expanded(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          await onPageRefresh(context, () => setState(() => init()));
+        },
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           children: [
-            if (searchText.isEmpty && widget.category.products.isNotEmpty)
+            if (searchText.isEmpty && category.products.isNotEmpty)
               CategoryListTile(
-                category: widget.category,
+                category: category,
                 isClosed: true,
               ),
             ListView.builder(

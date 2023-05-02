@@ -3,10 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../components/filter_modal_sheet.dart';
 import '../../components/sort_modal_sheet.dart';
+import '../../cubits/catalog/catalog_cubit.dart';
+import '../../cubits/category/category_cubit.dart';
 import '../../cubits/product/product_cubit.dart';
 import '../../enums/product_colors.dart';
 import '../../enums/product_sizes.dart';
 import '../../enums/sort_parameters.dart';
+import '../../models/category.dart';
 import '../../models/filter.dart';
 import '../../models/product.dart';
 import 'products_view.dart';
@@ -14,6 +17,7 @@ import 'products_view.dart';
 abstract class ProductsModal extends State<ProductsView> {
   String searchText = '';
   bool isLoading = false;
+  late CategoryModel? category;
   late final List<ProductModel> products;
   late List<ProductModel> filteredProducts;
 
@@ -28,17 +32,35 @@ abstract class ProductsModal extends State<ProductsView> {
   @override
   void initState() {
     super.initState();
-    setLoading(true);
-    products = (context.read<ProductCubit>().state.props as List<ProductModel>).where((product) {
-      return widget.category != null ? widget.category!.products.contains(product.id) : true;
-    }).toList();
-    filteredProducts = products;
-    sortProducts();
-    setLoading(false);
+    init();
   }
 
   void setLoading(bool value) {
     setState(() => isLoading = value);
+  }
+
+  void init() {
+    setLoading(true);
+    if (widget.id != null) {
+      if (widget.isCatalog) {
+        category = (context.read<CatalogCubit>().state.props as List<CategoryModel>).singleWhere((element) {
+          return element.id == widget.id;
+        });
+      } else {
+        category = (context.read<CategoryCubit>().state.props as List<CategoryModel>).singleWhere((element) {
+          return element.id == widget.id;
+        });
+      }
+    } else {
+      category = null;
+    }
+    products = (context.read<ProductCubit>().state.props as List<ProductModel>).where((element) {
+      return category != null ? category!.products.contains(element.id) : true;
+    }).toList();
+    filteredProducts = products;
+    sortProducts();
+    filterProducts();
+    setLoading(false);
   }
 
   void showSortingSelections() async {
@@ -82,8 +104,8 @@ abstract class ProductsModal extends State<ProductsView> {
   }
 
   void filterProducts() {
-    filteredProducts = products.where((product) {
-      final bool colorCondition = product.parameters
+    filteredProducts = products.where((element) {
+      final bool colorCondition = element.parameters
           .singleWhere((parameter) {
             return parameter.parameterName == 'Rəngləri';
           })
@@ -94,7 +116,7 @@ abstract class ProductsModal extends State<ProductsView> {
             }).contains(color);
           });
 
-      final bool sizeCondition = product.parameters
+      final bool sizeCondition = element.parameters
           .singleWhere((parameter) {
             return parameter.parameterName == 'Mövcud ölçüləri';
           })
@@ -105,7 +127,7 @@ abstract class ProductsModal extends State<ProductsView> {
             }).contains(size);
           });
 
-      final bool priceCondition = product.price > filter.minPrice && product.price < filter.maxPrice;
+      final bool priceCondition = element.price > filter.minPrice && element.price < filter.maxPrice;
 
       return colorCondition && sizeCondition && priceCondition;
     }).toList();

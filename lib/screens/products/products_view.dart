@@ -7,7 +7,7 @@ import '../../enums/button_type.dart';
 import '../../enums/icons.dart';
 import '../../enums/images.dart';
 import '../../enums/ink_type.dart';
-import '../../models/category.dart';
+import '../../utilities/refresh.dart';
 import '../../widgets/app_inkwell.dart';
 import '../../widgets/search.dart';
 import '../../widgets/small_button.dart';
@@ -17,10 +17,12 @@ import 'products_modal.dart';
 class ProductsView extends StatefulWidget {
   const ProductsView({
     Key? key,
-    required this.category,
+    required this.id,
+    required this.isCatalog,
   }) : super(key: key);
 
-  final CategoryModel? category;
+  final String? id;
+  final bool isCatalog;
 
   @override
   State<ProductsView> createState() => _ProductsViewState();
@@ -32,7 +34,7 @@ class _ProductsViewState extends ProductsModal {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.category?.title ?? StringConstants.allProductsText,
+          category?.title ?? StringConstants.allProductsText,
           style: AppFonts.bodyMedium,
         ),
         leading: goBackButton(context),
@@ -101,8 +103,8 @@ class _ProductsViewState extends ProductsModal {
   }
 
   Expanded get productList {
-    final searchedProducts = filteredProducts.where((product) {
-      return product.title.toLowerCase().contains(searchText.toLowerCase());
+    final searchedProducts = filteredProducts.where((element) {
+      return element.title.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
     return searchedProducts.isEmpty
         ? Expanded(
@@ -119,22 +121,27 @@ class _ProductsViewState extends ProductsModal {
             ),
           )
         : Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.all(16),
-              physics: const BouncingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: searchedProducts.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 24,
-                mainAxisExtent: 268,
-              ),
-              itemBuilder: (context, index) {
-                return ProductCard(
-                  product: searchedProducts[index],
-                );
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await onPageRefresh(context, () => setState(() => init()));
               },
+              child: GridView.builder(
+                padding: const EdgeInsets.all(16),
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: searchedProducts.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 24,
+                  mainAxisExtent: 268,
+                ),
+                itemBuilder: (context, index) {
+                  return ProductCard(
+                    product: searchedProducts[index],
+                  );
+                },
+              ),
             ),
           );
   }

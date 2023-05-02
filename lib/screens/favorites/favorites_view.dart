@@ -9,6 +9,7 @@ import '../../cubits/favorite/favorite_cubit.dart';
 import '../../enums/button_type.dart';
 import '../../enums/icons.dart';
 import '../../enums/images.dart';
+import '../../utilities/refresh.dart';
 import '../../widgets/search.dart';
 import '../../widgets/small_button.dart';
 import 'components/favorite_product_card.dart';
@@ -142,8 +143,8 @@ class _FavoritesViewState extends FavoritesModal {
   }
 
   Expanded get productList {
-    final searchedProducts = filteredProducts.where((product) {
-      return product.title.toLowerCase().contains(searchText.toLowerCase());
+    final searchedProducts = filteredProducts.where((element) {
+      return element.title.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
     return searchedProducts.isEmpty
         ? Expanded(
@@ -160,20 +161,24 @@ class _FavoritesViewState extends FavoritesModal {
             ),
           )
         : Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(16),
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              itemCount: searchedProducts.length,
-              itemBuilder: (context, index) {
-                return FavoriteProductCard(
-                  product: searchedProducts[index],
-                  unFavorite: unFavorite,
-                );
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await onPageRefresh(context, () => setState(() => init()));
               },
-              separatorBuilder: (context, index) {
-                return const SizedBox(height: 24);
-              },
+              child: ListView.separated(
+                padding: const EdgeInsets.all(16),
+                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                itemCount: searchedProducts.length,
+                itemBuilder: (context, index) {
+                  return FavoriteProductCard(
+                    product: searchedProducts[index],
+                    unFavorite: unFavorite,
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(height: 24);
+                },
+              ),
             ),
           );
   }

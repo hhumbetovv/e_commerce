@@ -25,11 +25,13 @@ class CatalogListTile extends StatelessWidget {
         builder: (context) {
           if (catalog != null && catalog!.subCategories.isNotEmpty) {
             return CategoriesView(
-              category: catalog!,
+              id: catalog!.id,
+              isCatalog: true,
             );
           }
           return ProductsView(
-            category: catalog,
+            id: catalog?.id,
+            isCatalog: true,
           );
         },
       ),

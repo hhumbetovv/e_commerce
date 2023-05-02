@@ -92,8 +92,8 @@ class ProductDetailsView extends StatelessWidget {
         if (state is FavoriteLoaded) {
           bool isFavorite = state.favoriteIds.contains(product.id);
           return AppInkWell(
-            onTap: () {
-              context.read<FavoriteCubit>().toggleProduct(product.id);
+            onTap: () async {
+              await context.read<FavoriteCubit>().toggleProduct(product.id);
             },
             type: InkType.noSplash,
             child: CircleAvatar(

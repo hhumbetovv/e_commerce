@@ -8,13 +8,13 @@ part 'favorite_state.dart';
 class FavoriteCubit extends Cubit<FavoriteState> {
   FavoriteCubit() : super(FavoriteInitial());
 
-  void getFavoriteProducts() {
+  Future<void> getFavoriteProducts() async {
     emit(FavoriteLoading());
     List<String> favoriteIds = CacheItems.favorites.getStringList;
     emit(FavoriteLoaded(favoriteIds));
   }
 
-  void addProduct(String id) {
+  Future<void> addProduct(String id) async {
     emit(FavoriteLoading());
     List<String> favoriteIds = CacheItems.favorites.getStringList;
     favoriteIds.add(id);
@@ -22,7 +22,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     emit(FavoriteLoaded(favoriteIds));
   }
 
-  void removeProduct(String id) {
+  Future<void> removeProduct(String id) async {
     emit(FavoriteLoading());
     List<String> favoriteIds = CacheItems.favorites.getStringList;
     favoriteIds.remove(id);
@@ -31,7 +31,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     emit(FavoriteLoaded(favoriteIds));
   }
 
-  void toggleProduct(String id) {
+  Future<void> toggleProduct(String id) async {
     emit(FavoriteLoading());
     List<String> favoriteIds = CacheItems.favorites.getStringList;
     if (favoriteIds.contains(id)) {

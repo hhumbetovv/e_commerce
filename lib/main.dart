@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/screens/splash/splash_view.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,6 @@ import 'cubits/favorite/favorite_cubit.dart';
 import 'cubits/product/product_cubit.dart';
 import 'initialize/app_onset.dart';
 import 'initialize/app_theme.dart';
-import 'screens/splash/splash_view.dart';
 
 void main() async {
   await AppOnset.init();

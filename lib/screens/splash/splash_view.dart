@@ -35,7 +35,7 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future<void> _loadData() async {
-    context.read<FavoriteCubit>().getFavoriteProducts();
+    await context.read<FavoriteCubit>().getFavoriteProducts();
     try {
       await Future.wait([
         _catalogCubit.getCatalogs(),

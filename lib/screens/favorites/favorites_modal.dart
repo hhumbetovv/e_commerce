@@ -29,6 +29,10 @@ abstract class FavoritesModal extends State<FavoritesView> {
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  void init() {
     setLoading(true);
     products = context.read<ProductCubit>().state.props as List<ProductModel>;
     setFavoriteProducts(context.read<FavoriteCubit>().state.props as List<String>);
@@ -39,10 +43,13 @@ abstract class FavoritesModal extends State<FavoritesView> {
     setState(() => isLoading = value);
   }
 
-  void setFavoriteProducts(List<String> favoriteIds) {
-    products = context.read<ProductCubit>().state.props as List<ProductModel>;
-    products = products.where((product) {
-      return favoriteIds.contains(product.id);
+  void setFavoriteProducts(List<String> favoriteIds) async {
+    await context.read<ProductCubit>().getProducts();
+    if (mounted) {
+      products = context.read<ProductCubit>().state.props as List<ProductModel>;
+    }
+    products = products.where((element) {
+      return favoriteIds.contains(element.id);
     }).toList();
     filteredProducts = products;
     sortProducts();
@@ -90,8 +97,8 @@ abstract class FavoritesModal extends State<FavoritesView> {
   }
 
   void filterProducts() {
-    filteredProducts = products.where((product) {
-      final bool colorCondition = product.parameters
+    filteredProducts = products.where((element) {
+      final bool colorCondition = element.parameters
           .singleWhere((parameter) {
             return parameter.parameterName == 'Rəngləri';
           })
@@ -102,7 +109,7 @@ abstract class FavoritesModal extends State<FavoritesView> {
             }).contains(color);
           });
 
-      final bool sizeCondition = product.parameters
+      final bool sizeCondition = element.parameters
           .singleWhere((parameter) {
             return parameter.parameterName == 'Mövcud ölçüləri';
           })
@@ -113,16 +120,16 @@ abstract class FavoritesModal extends State<FavoritesView> {
             }).contains(size);
           });
 
-      final bool priceCondition = product.price > filter.minPrice && product.price < filter.maxPrice;
+      final bool priceCondition = element.price > filter.minPrice && element.price < filter.maxPrice;
 
       return colorCondition && sizeCondition && priceCondition;
     }).toList();
   }
 
-  void unFavorite(String id) {
+  void unFavorite(String id) async {
+    await context.read<FavoriteCubit>().removeProduct(id);
     setState(() {
-      context.read<FavoriteCubit>().removeProduct(id);
-      products.removeWhere((product) => product.id == id);
+      products.removeWhere((element) => element.id == id);
     });
   }
 }

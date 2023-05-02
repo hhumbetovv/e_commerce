@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants/app_fonts.dart';
 import '../../constants/string_constants.dart';
-import '../../cubits/catalog/catalog_cubit.dart';
-import '../../cubits/product/product_cubit.dart';
-import '../../models/category.dart';
-import '../../models/product.dart';
+import '../../utilities/refresh.dart';
 import '../../widgets/search.dart';
 import 'catalog_modal.dart';
 import 'components/catalog_list_tile.dart';
@@ -21,16 +17,6 @@ class CatalogView extends StatefulWidget {
 }
 
 class _CatalogViewState extends CatalogModal {
-  late final List<CategoryModel> catalogs;
-  late final List<ProductModel?> products;
-
-  @override
-  void initState() {
-    super.initState();
-    catalogs = context.read<CatalogCubit>().state.props as List<CategoryModel>;
-    products = context.read<ProductCubit>().state.props as List<ProductModel>;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,13 +59,16 @@ class _CatalogViewState extends CatalogModal {
   }
 
   Expanded get catalogList {
-    final searchedCatalogs = catalogs.where((catalog) {
-      return catalog.title.toLowerCase().contains(searchText.toLowerCase());
+    final searchedCatalogs = catalogs.where((element) {
+      return element.title.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
     return Expanded(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          await onPageRefresh(context, () => setState(() => init()));
+        },
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           children: [
             if (searchText.isEmpty && products.isNotEmpty)
               const Padding(
