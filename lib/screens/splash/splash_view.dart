@@ -24,6 +24,7 @@ class _SplashViewState extends State<SplashView> {
   late final CatalogCubit _catalogCubit;
   late final CategoryCubit _categoryCubit;
   late final ProductCubit _productCubit;
+  late final FavoriteCubit _favoriteCubit;
 
   @override
   void initState() {
@@ -31,16 +32,17 @@ class _SplashViewState extends State<SplashView> {
     _catalogCubit = context.read<CatalogCubit>();
     _categoryCubit = context.read<CategoryCubit>();
     _productCubit = context.read<ProductCubit>();
+    _favoriteCubit = context.read<FavoriteCubit>();
     _loadData();
   }
 
   Future<void> _loadData() async {
-    await context.read<FavoriteCubit>().getFavoriteProducts();
     try {
       await Future.wait([
         _catalogCubit.getCatalogs(),
         _categoryCubit.getCategories(),
         _productCubit.getProducts(),
+        _favoriteCubit.getFavoriteProducts(),
       ]);
       if (mounted) {}
       if (_catalogCubit.state is CatalogError) {

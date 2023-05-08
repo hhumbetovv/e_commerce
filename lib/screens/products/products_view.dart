@@ -123,7 +123,7 @@ class _ProductsViewState extends ProductsModal {
         : Expanded(
             child: RefreshIndicator(
               onRefresh: () async {
-                await onPageRefresh(context, () => setState(() => init()));
+                await onPageRefresh(context, init);
               },
               child: GridView.builder(
                 padding: const EdgeInsets.all(16),

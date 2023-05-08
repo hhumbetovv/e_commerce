@@ -15,8 +15,9 @@ import 'favorites_view.dart';
 abstract class FavoritesModal extends State<FavoritesView> {
   String searchText = '';
   bool isLoading = false;
-  late List<ProductModel> products;
-  late List<ProductModel> filteredProducts;
+  List<ProductModel> products = [];
+  List<String> favoriteIds = [];
+  List<ProductModel> filteredProducts = [];
 
   SortParameters selectedSortParameter = SortParameters.news;
   FilterModel filter = FilterModel(
@@ -29,21 +30,26 @@ abstract class FavoritesModal extends State<FavoritesView> {
   @override
   void initState() {
     super.initState();
-    init();
+    setState(() {
+      init();
+    });
   }
 
   void init() {
     setLoading(true);
     products = context.read<ProductCubit>().state.props as List<ProductModel>;
-    setFavoriteProducts(context.read<FavoriteCubit>().state.props as List<String>);
+    favoriteIds = context.read<FavoriteCubit>().state.props as List<String>;
+    setFavoriteProducts();
     setLoading(false);
   }
 
   void setLoading(bool value) {
-    setState(() => isLoading = value);
+    setState(() {
+      isLoading = value;
+    });
   }
 
-  void setFavoriteProducts(List<String> favoriteIds) async {
+  void setFavoriteProducts() async {
     await context.read<ProductCubit>().getProducts();
     if (mounted) {
       products = context.read<ProductCubit>().state.props as List<ProductModel>;
@@ -51,9 +57,11 @@ abstract class FavoritesModal extends State<FavoritesView> {
     products = products.where((element) {
       return favoriteIds.contains(element.id);
     }).toList();
-    filteredProducts = products;
-    sortProducts();
-    filterProducts();
+    setState(() {
+      filteredProducts = products;
+      sortProducts();
+      filterProducts();
+    });
   }
 
   void showSortingSelections() async {

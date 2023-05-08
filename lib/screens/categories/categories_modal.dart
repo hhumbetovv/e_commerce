@@ -18,17 +18,19 @@ abstract class CategoriesModal extends State<CategoriesView> {
   }
 
   void init() {
-    if (widget.isCatalog) {
-      category = (context.read<CatalogCubit>().state.props as List<CategoryModel>).singleWhere((element) {
-        return element.id == widget.id;
-      });
-    } else {
-      category = (context.read<CategoryCubit>().state.props as List<CategoryModel>).singleWhere((element) {
-        return element.id == widget.id;
-      });
-    }
-    categories = (context.read<CategoryCubit>().state.props as List<CategoryModel>).where((element) {
-      return category.subCategories.isNotEmpty ? category.subCategories.contains(element.id) : true;
-    }).toList();
+    setState(() {
+      if (widget.isCatalog) {
+        category = (context.read<CatalogCubit>().state.props as List<CategoryModel>).singleWhere((element) {
+          return element.id == widget.id;
+        });
+      } else {
+        category = (context.read<CategoryCubit>().state.props as List<CategoryModel>).singleWhere((element) {
+          return element.id == widget.id;
+        });
+      }
+      categories = (context.read<CategoryCubit>().state.props as List<CategoryModel>).where((element) {
+        return category.subCategories.isNotEmpty ? category.subCategories.contains(element.id) : true;
+      }).toList();
+    });
   }
 }

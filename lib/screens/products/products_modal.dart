@@ -17,9 +17,9 @@ import 'products_view.dart';
 abstract class ProductsModal extends State<ProductsView> {
   String searchText = '';
   bool isLoading = false;
-  late CategoryModel? category;
+  CategoryModel? category;
   late final List<ProductModel> products;
-  late List<ProductModel> filteredProducts;
+  List<ProductModel> filteredProducts = [];
 
   SortParameters selectedSortParameter = SortParameters.news;
   FilterModel filter = FilterModel(
@@ -36,30 +36,34 @@ abstract class ProductsModal extends State<ProductsView> {
   }
 
   void setLoading(bool value) {
-    setState(() => isLoading = value);
+    setState(() {
+      isLoading = value;
+    });
   }
 
   void init() {
     setLoading(true);
-    if (widget.id != null) {
-      if (widget.isCatalog) {
-        category = (context.read<CatalogCubit>().state.props as List<CategoryModel>).singleWhere((element) {
-          return element.id == widget.id;
-        });
+    setState(() {
+      if (widget.id != null) {
+        if (widget.isCatalog) {
+          category = (context.read<CatalogCubit>().state.props as List<CategoryModel>).singleWhere((element) {
+            return element.id == widget.id;
+          });
+        } else {
+          category = (context.read<CategoryCubit>().state.props as List<CategoryModel>).singleWhere((element) {
+            return element.id == widget.id;
+          });
+        }
       } else {
-        category = (context.read<CategoryCubit>().state.props as List<CategoryModel>).singleWhere((element) {
-          return element.id == widget.id;
-        });
+        category = null;
       }
-    } else {
-      category = null;
-    }
-    products = (context.read<ProductCubit>().state.props as List<ProductModel>).where((element) {
-      return category != null ? category!.products.contains(element.id) : true;
-    }).toList();
-    filteredProducts = products;
-    sortProducts();
-    filterProducts();
+      products = (context.read<ProductCubit>().state.props as List<ProductModel>).where((element) {
+        return category != null ? category!.products.contains(element.id) : true;
+      }).toList();
+      filteredProducts = products;
+      sortProducts();
+      filterProducts();
+    });
     setLoading(false);
   }
 

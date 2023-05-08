@@ -9,6 +9,7 @@ import '../../cubits/favorite/favorite_cubit.dart';
 import '../../enums/button_type.dart';
 import '../../enums/icons.dart';
 import '../../enums/images.dart';
+import '../../utilities/deep_equality.dart';
 import '../../utilities/refresh.dart';
 import '../../widgets/search.dart';
 import '../../widgets/small_button.dart';
@@ -37,8 +38,10 @@ class _FavoritesViewState extends FavoritesModal {
             );
           }
           if (state is FavoriteLoaded) {
-            setFavoriteProducts(state.favoriteIds);
-            sortProducts();
+            if (!DeepEquality.listEquals(state.favoriteIds, favoriteIds)) {
+              favoriteIds = state.favoriteIds;
+              setFavoriteProducts();
+            }
             if (products.isEmpty) {
               return Column(
                 children: [

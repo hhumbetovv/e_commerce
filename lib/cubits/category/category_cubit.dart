@@ -24,7 +24,7 @@ class CategoryCubit extends Cubit<CategoryState> {
 
       final querySnapshot = await _firestore.collection('categories').get();
 
-      final categories = querySnapshot.docs.map((doc) {
+      final List<CategoryModel> categories = querySnapshot.docs.map((doc) {
         return CategoryModel.fromJson(doc.data());
       }).toList();
 

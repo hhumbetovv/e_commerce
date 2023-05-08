@@ -19,7 +19,9 @@ abstract class CatalogModal extends State<CatalogView> {
   }
 
   void init() {
-    catalogs = context.read<CatalogCubit>().state.props as List<CategoryModel>;
-    products = context.read<ProductCubit>().state.props as List<ProductModel>;
+    setState(() {
+      catalogs = context.read<CatalogCubit>().state.props as List<CategoryModel>;
+      products = context.read<ProductCubit>().state.props as List<ProductModel>;
+    });
   }
 }

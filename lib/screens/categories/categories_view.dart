@@ -89,7 +89,7 @@ class _CategoriesViewState extends CategoriesModal {
     return Expanded(
       child: RefreshIndicator(
         onRefresh: () async {
-          await onPageRefresh(context, () => setState(() => init()));
+          await onPageRefresh(context, init);
         },
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),

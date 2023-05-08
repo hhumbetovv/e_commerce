@@ -24,10 +24,9 @@ class ProductCubit extends Cubit<ProductState> {
 
       final querySnapshot = await _firestore.collection('products').get();
 
-      final products = querySnapshot.docs.map((doc) {
+      final List<ProductModel> products = querySnapshot.docs.map((doc) {
         return ProductModel.fromJson(doc.data());
       }).toList();
-
       emit(ProductLoaded(products));
     } catch (e) {
       emit(ProductError(e.toString()));
