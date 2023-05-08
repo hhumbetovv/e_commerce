@@ -2,6 +2,7 @@ class CategoryModel {
   final String id;
   final String title;
   final String imageUrl;
+  final String parentId;
   final List<String> subCategories;
   final List<String> products;
 
@@ -9,6 +10,7 @@ class CategoryModel {
     required this.id,
     required this.title,
     required this.imageUrl,
+    required this.parentId,
     required this.subCategories,
     required this.products,
   });
@@ -28,6 +30,7 @@ class CategoryModel {
       id: json['id'] as String,
       title: json['title'] as String,
       imageUrl: json['imageUrl'] as String,
+      parentId: json['parentId'] as String,
       subCategories: subCategories,
       products: products,
     );
@@ -38,6 +41,7 @@ class CategoryModel {
       'id': id,
       'title': title,
       'imageUrl': imageUrl,
+      'parentId': parentId,
       'products': products,
       'subCategories': subCategories,
     };
@@ -45,6 +49,6 @@ class CategoryModel {
 
   @override
   String toString() {
-    return 'CategoryModel{title=$title, imageUrl=$imageUrl, subCategories=$subCategories, products=$products}';
+    return 'CategoryModel{id=$id, title=$title, imageUrl=$imageUrl, parentId=$parentId, subCategories=$subCategories, products=$products}';
   }
 }

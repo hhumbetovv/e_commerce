@@ -27,12 +27,12 @@ class CategoryListTile extends StatelessWidget {
           if (!isClosed && category.subCategories.isNotEmpty) {
             return CategoriesView(
               id: category.id,
-              isCatalog: false,
+              isCatalog: category.parentId.isEmpty,
             );
           }
           return ProductsView(
             id: category.id,
-            isCatalog: false,
+            isCatalog: category.parentId.isEmpty,
           );
         },
       ),
