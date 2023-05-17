@@ -9,6 +9,7 @@ import 'catalog_view.dart';
 
 abstract class CatalogModal extends State<CatalogView> {
   String searchText = '';
+  bool isLoading = false;
   late List<CategoryModel> catalogs;
   late List<ProductModel> products;
 
@@ -18,10 +19,19 @@ abstract class CatalogModal extends State<CatalogView> {
     init();
   }
 
+  void setLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
+  }
+
   void init() {
+    setLoading(true);
     setState(() {
       catalogs = context.read<CatalogCubit>().state.props as List<CategoryModel>;
       products = context.read<ProductCubit>().state.props as List<ProductModel>;
+      isLoading = false;
     });
+    setLoading(false);
   }
 }
