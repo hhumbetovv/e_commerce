@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../components/filter_modal_sheet.dart';
-import '../../components/sort_modal_sheet.dart';
+import '../../components/modals/filter_modal_sheet.dart';
+import '../../components/modals/sort_modal_sheet.dart';
 import '../../cubits/catalog/catalog_cubit.dart';
 import '../../cubits/category/category_cubit.dart';
 import '../../cubits/product/product_cubit.dart';

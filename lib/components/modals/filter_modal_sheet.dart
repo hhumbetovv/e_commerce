@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../constants/app_fonts.dart';
-import '../constants/color_constants.dart';
-import '../constants/string_constants.dart';
-import '../enums/button_type.dart';
-import '../enums/icons.dart';
-import '../enums/ink_type.dart';
-import '../enums/product_colors.dart';
-import '../enums/product_sizes.dart';
-import '../extensions/text_style_extension.dart';
-import '../models/filter.dart';
-import '../widgets/app_inkwell.dart';
-import '../widgets/large_button.dart';
+import '../../constants/app_fonts.dart';
+import '../../constants/color_constants.dart';
+import '../../constants/string_constants.dart';
+import '../../enums/button_type.dart';
+import '../../enums/icons.dart';
+import '../../enums/ink_type.dart';
+import '../../enums/product_colors.dart';
+import '../../enums/product_sizes.dart';
+import '../../extensions/text_style_extension.dart';
+import '../../models/filter.dart';
+import '../../widgets/app_inkwell.dart';
+import '../../widgets/large_button.dart';
 
 Future<FilterModel?> filterModalSheet(BuildContext context, FilterModel filter) {
   return showModalBottomSheet<FilterModel?>(
@@ -154,7 +154,7 @@ class _FilterModalBodyState extends State<FilterModalBody> {
                     text: StringConstants.showProducts,
                     type: ButtonType.primary,
                     onTap: () {
-                      Navigator.pop(context, currentFilter);
+                      Navigator.of(context).pop(currentFilter);
                     },
                   ),
                 ),
