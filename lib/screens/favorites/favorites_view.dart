@@ -11,6 +11,7 @@ import '../../enums/icons.dart';
 import '../../enums/images.dart';
 import '../../utilities/deep_equality.dart';
 import '../../utilities/refresh.dart';
+import '../../widgets/circular_loader.dart';
 import '../../widgets/search.dart';
 import '../../widgets/small_button.dart';
 import 'components/favorite_product_card.dart';
@@ -33,9 +34,7 @@ class _FavoritesViewState extends FavoritesModal {
       body: BlocBuilder<FavoriteCubit, FavoriteState>(
         builder: (context, state) {
           if (state is FavoriteLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return CircularLoader.center();
           }
           if (state is FavoriteLoaded) {
             if (!DeepEquality.listEquals(state.favoriteIds, favoriteIds)) {
