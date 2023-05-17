@@ -13,12 +13,14 @@ class LargeButton extends StatelessWidget {
     required this.onTap,
     required this.type,
     this.icon,
+    this.style,
   }) : super(key: key);
 
   final String text;
-  final Function() onTap;
+  final Function()? onTap;
   final ButtonType type;
   final String? icon;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class LargeButton extends StatelessWidget {
           Text(
             '$text ',
             textAlign: TextAlign.center,
-            style: AppFonts.bodyMedium,
+            style: style ?? AppFonts.bodyMedium,
           ),
           SvgPicture.asset(
             icon!,
@@ -62,7 +64,7 @@ class LargeButton extends StatelessWidget {
     return Text(
       text,
       textAlign: TextAlign.center,
-      style: AppFonts.bodyMedium,
+      style: style ?? AppFonts.bodyMedium,
     );
   }
 }

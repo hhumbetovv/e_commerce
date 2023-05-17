@@ -14,13 +14,15 @@ class SmallButton extends StatelessWidget {
     required this.type,
     this.isFullWidth = false,
     this.icon,
+    this.style,
   }) : super(key: key);
 
   final String text;
-  final Function() onTap;
+  final Function()? onTap;
   final bool isFullWidth;
   final ButtonType type;
   final String? icon;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,7 @@ class SmallButton extends StatelessWidget {
           Text(
             '$text ',
             textAlign: TextAlign.center,
-            style: AppFonts.bodySmall,
+            style: style ?? AppFonts.bodySmall,
           ),
           SvgPicture.asset(
             icon!,
@@ -64,7 +66,7 @@ class SmallButton extends StatelessWidget {
     return Text(
       text,
       textAlign: TextAlign.center,
-      style: AppFonts.bodySmall,
+      style: style ?? AppFonts.bodySmall,
     );
   }
 }
