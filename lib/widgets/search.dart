@@ -35,9 +35,17 @@ class Search extends StatelessWidget {
           ),
           hintText: hintText,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(9),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide.none,
           ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(
+              color: ColorConstants.grey[300]!,
+              width: 1,
+            ),
+          ),
+          focusColor: ColorConstants.grey[300],
         ),
       ),
     );
