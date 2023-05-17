@@ -37,6 +37,7 @@ class StringConstants {
   static const String fromGallery = 'qalereya';
   static const String fromCamera = 'kamera';
   static const String upload = 'əlavə et';
+  static const String save = 'yadda saxla';
   static const String edit = 'redaktə et';
   static const String delete = 'sil';
 

@@ -9,13 +9,11 @@ part 'product_state.dart';
 
 class ProductCubit extends Cubit<ProductState> {
   final FirebaseFirestore _firestore;
-  final FirebaseStorage _storage;
 
   ProductCubit({
     required FirebaseFirestore firestore,
     required FirebaseStorage storage,
   })  : _firestore = firestore,
-        _storage = storage,
         super(ProductInitial());
 
   Future<void> getProducts() async {

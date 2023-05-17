@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../components/modals/create_catalog_modal_sheet.dart';
+import '../../../components/modals/edit_catalog_modal_sheet.dart';
 import '../../../constants/color_constants.dart';
 import '../../../enums/icons.dart';
 import '../../../enums/ink_type.dart';
@@ -25,7 +25,7 @@ class _AddCatalogButtonState extends State<AddCatalogButton> {
   Widget build(BuildContext context) {
     return AppInkWell(
       onTap: () async {
-        final response = await createCatalogModalSheet(context);
+        final response = await editCatalogModalSheet(context);
         if (response ?? false) {
           widget.onRefresh();
         }

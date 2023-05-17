@@ -9,13 +9,11 @@ part 'category_state.dart';
 
 class CategoryCubit extends Cubit<CategoryState> {
   final FirebaseFirestore _firestore;
-  final FirebaseStorage _storage;
 
   CategoryCubit({
     required FirebaseFirestore firestore,
     required FirebaseStorage storage,
   })  : _firestore = firestore,
-        _storage = storage,
         super(CategoryInitial());
 
   Future<void> getCategories() async {

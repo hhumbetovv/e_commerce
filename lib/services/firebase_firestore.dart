@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> addCatalog(Map<String, dynamic> catalogJson) async {
+  Future<void> setCatalog(Map<String, dynamic> catalogJson) async {
     try {
       await _firestore.collection('catalogs').doc(catalogJson['id']).set(catalogJson);
     } catch (e) {
@@ -19,9 +19,9 @@ class FirestoreService {
     }
   }
 
-  Future<void> addCategory(Map<String, dynamic> categoryJson) async {
+  Future<void> setCategory(Map<String, dynamic> categoryJson) async {
     try {
-      await _firestore.collection('categories').add(categoryJson);
+      await _firestore.collection('categories').doc(categoryJson['id']).set(categoryJson);
     } catch (e) {
       rethrow;
     }
@@ -35,9 +35,9 @@ class FirestoreService {
     }
   }
 
-  Future<void> addProduct(Map<String, dynamic> productJson) async {
+  Future<void> setProduct(Map<String, dynamic> productJson) async {
     try {
-      await _firestore.collection('products').add(productJson);
+      await _firestore.collection('products').doc(productJson['id']).set(productJson);
     } catch (e) {
       rethrow;
     }

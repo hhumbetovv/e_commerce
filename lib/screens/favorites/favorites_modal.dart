@@ -51,9 +51,7 @@ abstract class FavoritesModal extends State<FavoritesView> {
 
   void setFavoriteProducts() async {
     await context.read<ProductCubit>().getProducts();
-    if (mounted) {
-      products = context.read<ProductCubit>().state.props as List<ProductModel>;
-    }
+    if (mounted) products = context.read<ProductCubit>().state.props as List<ProductModel>;
     products = products.where((element) {
       return favoriteIds.contains(element.id);
     }).toList();

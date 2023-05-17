@@ -47,6 +47,24 @@ class CategoryModel {
     };
   }
 
+  CategoryModel copyWith({
+    String? id,
+    String? title,
+    String? imageUrl,
+    String? parentId,
+    List<String>? subCategories,
+    List<String>? products,
+  }) {
+    return CategoryModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      imageUrl: imageUrl ?? this.imageUrl,
+      parentId: parentId ?? this.parentId,
+      subCategories: subCategories ?? this.subCategories,
+      products: products ?? this.products,
+    );
+  }
+
   @override
   String toString() {
     return 'CategoryModel{id=$id, title=$title, imageUrl=$imageUrl, parentId=$parentId, subCategories=$subCategories, products=$products}';

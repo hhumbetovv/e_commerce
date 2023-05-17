@@ -24,8 +24,7 @@ Future<void> onPageRefresh(BuildContext context, Function() init) async {
       productCubit.getProducts(),
       favoriteCubit.getFavoriteProducts(),
     ]);
-    if (context.mounted) {}
-    if (catalogCubit.state is CatalogError) {
+    if (context.mounted && catalogCubit.state is CatalogError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(catalogCubit.state.toString())),
       );

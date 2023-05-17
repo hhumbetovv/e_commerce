@@ -9,13 +9,11 @@ part 'catalog_state.dart';
 
 class CatalogCubit extends Cubit<CatalogState> {
   final FirebaseFirestore _firestore;
-  final FirebaseStorage _storage;
 
   CatalogCubit({
     required FirebaseFirestore firestore,
     required FirebaseStorage storage,
   })  : _firestore = firestore,
-        _storage = storage,
         super(CatalogInitial());
 
   Future<void> getCatalogs() async {

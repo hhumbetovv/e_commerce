@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,9 +13,10 @@ import '../../enums/button_type.dart';
 import '../../models/category.dart';
 import '../../services/firebase_firestore.dart';
 import '../../services/firebase_storage.dart';
+import '../../widgets/circular_loader.dart';
 import '../../widgets/large_button.dart';
 
-Future<bool?> createCatalogModalSheet(BuildContext context) {
+Future<bool?> editCatalogModalSheet(BuildContext context, {CategoryModel? catalog}) {
   return showModalBottomSheet<bool?>(
     backgroundColor: ColorConstants.white,
     isScrollControlled: true,
@@ -26,24 +28,41 @@ Future<bool?> createCatalogModalSheet(BuildContext context) {
       ),
     ),
     builder: (context) {
-      return const CreateCatalogModalBody();
+      return CatalogModalBody(catalog: catalog);
     },
   );
 }
 
-class CreateCatalogModalBody extends StatefulWidget {
-  const CreateCatalogModalBody({
+class CatalogModalBody extends StatefulWidget {
+  const CatalogModalBody({
     Key? key,
+    this.catalog,
   }) : super(key: key);
 
+  final CategoryModel? catalog;
+
   @override
-  State<CreateCatalogModalBody> createState() => _CreateCatalogModalBodyState();
+  State<CatalogModalBody> createState() => _CatalogModalBodyState();
 }
 
-class _CreateCatalogModalBodyState extends State<CreateCatalogModalBody> {
+class _CatalogModalBodyState extends State<CatalogModalBody> {
   String? title;
   File? image;
   bool isLoading = false;
+  final TextEditingController titleController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    title = widget.catalog?.title;
+    titleController.text = title ?? '';
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    super.dispose();
+  }
 
   Future<void> getImage(ImageSource source) async {
     final ImagePicker imagePicker = ImagePicker();
@@ -73,11 +92,41 @@ class _CreateCatalogModalBodyState extends State<CreateCatalogModalBody> {
           subCategories: [],
           products: [],
         );
-        await FirestoreService().addCatalog(catalog.toJson());
-        if (mounted) {
-          Navigator.of(context).pop(true);
-        }
+        await FirestoreService().setCatalog(catalog.toJson());
+        if (mounted) Navigator.of(context).pop(true);
       }
+    } catch (e) {
+      Navigator.of(context).pop(false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+        ),
+      );
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future<void> updateCatalog() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      String? imageUrl;
+      if (image != null) {
+        imageUrl = await FirebaseStorageService().uploadImage(
+          image!,
+          StringConstants.catalogImagesPath,
+        );
+        await FirebaseStorageService().deleteImageByUrl(widget.catalog!.imageUrl);
+      }
+      final CategoryModel updatedCatalog = widget.catalog!.copyWith(
+        title: title,
+        imageUrl: imageUrl,
+      );
+      await FirestoreService().setCatalog(updatedCatalog.toJson());
+      if (mounted) Navigator.of(context).pop(true);
     } catch (e) {
       Navigator.of(context).pop(false);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -143,9 +192,24 @@ class _CreateCatalogModalBodyState extends State<CreateCatalogModalBody> {
                     image!,
                     fit: BoxFit.cover,
                   )
-                : Container(
-                    color: ColorConstants.primary[300],
-                  ),
+                : widget.catalog != null
+                    ? CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: widget.catalog!.imageUrl,
+                        placeholder: (context, url) => CircularLoader.center(
+                          color: ColorConstants.primary[400],
+                        ),
+                        errorWidget: (context, url, error) => const Center(
+                          child: Icon(
+                            Icons.error,
+                            color: ColorConstants.red,
+                            size: 32,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        color: ColorConstants.primary[300],
+                      ),
           )
         ],
       ),
@@ -156,6 +220,7 @@ class _CreateCatalogModalBodyState extends State<CreateCatalogModalBody> {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: TextField(
+        controller: titleController,
         style: AppFonts.bodyMedium.regular,
         textAlignVertical: TextAlignVertical.center,
         cursorColor: ColorConstants.primary,
@@ -221,8 +286,8 @@ class _CreateCatalogModalBodyState extends State<CreateCatalogModalBody> {
           : Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               child: LargeButton(
-                text: StringConstants.upload,
-                onTap: uploadCatalog,
+                text: widget.catalog != null ? StringConstants.save : StringConstants.upload,
+                onTap: widget.catalog != null ? updateCatalog : uploadCatalog,
                 type: ButtonType.primary,
               ),
             ),

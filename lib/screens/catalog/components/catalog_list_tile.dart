@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../components/dialogs/catalog_selections_dialog.dart';
+import '../../../components/modals/edit_catalog_modal_sheet.dart';
 import '../../../constants/app_fonts.dart';
 import '../../../constants/color_constants.dart';
 import '../../../constants/string_constants.dart';
@@ -30,12 +31,20 @@ class CatalogListTile extends StatelessWidget {
     try {
       await FirestoreService().deleteCatalog(catalog!.id);
       await FirebaseStorageService().deleteImageByUrl(catalog!.imageUrl);
+      if (onRefresh != null) onRefresh!();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString()),
         ),
       );
+    }
+  }
+
+  Future<void> editCatalog(BuildContext context) async {
+    final response = await editCatalogModalSheet(context, catalog: catalog);
+    if ((response ?? false) && onRefresh != null) {
+      onRefresh!();
     }
   }
 
@@ -66,12 +75,9 @@ class CatalogListTile extends StatelessWidget {
           if (context.mounted) deleteCatalog(context);
           break;
         case CatalogSelections.update:
-          // TODO: Handle this case.
+          if (context.mounted) editCatalog(context);
           break;
         default:
-      }
-      if (response != null && onRefresh != null) {
-        onRefresh!();
       }
     }
   }
