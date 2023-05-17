@@ -1,13 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../../components/dialogs/catalog_selections_dialog.dart';
 import '../../../constants/app_fonts.dart';
 import '../../../constants/color_constants.dart';
 import '../../../constants/string_constants.dart';
+import '../../../enums/catalog_selections.dart';
 import '../../../enums/images.dart';
 import '../../../enums/ink_type.dart';
 import '../../../models/category.dart';
+import '../../../services/firebase_firestore.dart';
+import '../../../services/firebase_storage.dart';
 import '../../../widgets/app_inkwell.dart';
+import '../../../widgets/circular_loader.dart';
 import '../../categories/categories_view.dart';
 import '../../products/products_view.dart';
 
@@ -15,9 +20,24 @@ class CatalogListTile extends StatelessWidget {
   const CatalogListTile({
     Key? key,
     this.catalog,
+    this.onRefresh,
   }) : super(key: key);
 
   final CategoryModel? catalog;
+  final Function()? onRefresh;
+
+  Future<void> deleteCatalog(BuildContext context) async {
+    try {
+      await FirestoreService().deleteCatalog(catalog!.id);
+      await FirebaseStorageService().deleteImageByUrl(catalog!.imageUrl);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+        ),
+      );
+    }
+  }
 
   void cardOnTap(BuildContext context) {
     Navigator.of(context).push(
@@ -38,11 +58,30 @@ class CatalogListTile extends StatelessWidget {
     );
   }
 
+  Future<void> cardOnLongPress(BuildContext context) async {
+    if (catalog != null) {
+      final CatalogSelections? response = await catalogSelectionsDialog(context, catalog!);
+      switch (response) {
+        case CatalogSelections.delete:
+          if (context.mounted) deleteCatalog(context);
+          break;
+        case CatalogSelections.update:
+          // TODO: Handle this case.
+          break;
+        default:
+      }
+      if (response != null && onRefresh != null) {
+        onRefresh!();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppInkWell(
       type: InkType.sparkle,
       onTap: () => cardOnTap(context),
+      onLongPress: () => cardOnLongPress(context),
       child: Container(
         height: 100,
         decoration: BoxDecoration(
@@ -83,10 +122,8 @@ class CatalogListTile extends StatelessWidget {
           ? CachedNetworkImage(
               fit: BoxFit.cover,
               imageUrl: catalog!.imageUrl,
-              placeholder: (context, url) => Center(
-                child: CircularProgressIndicator(
-                  color: ColorConstants.primary[400],
-                ),
+              placeholder: (context, url) => CircularLoader.center(
+                color: ColorConstants.primary[400],
               ),
               errorWidget: (context, url, error) => const Center(
                 child: Icon(
