@@ -1,4 +1,3 @@
-import 'package:e_commerce/screens/product_details/product_details_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,6 +10,7 @@ import '../../enums/ink_type.dart';
 import '../../extensions/text_style_extension.dart';
 import '../../widgets/app_inkwell.dart';
 import 'components/product_image_view.dart';
+import 'product_details_modal.dart';
 
 class ProductDetailsView extends StatefulWidget {
   const ProductDetailsView({
