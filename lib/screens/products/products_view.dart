@@ -9,6 +9,7 @@ import '../../enums/images.dart';
 import '../../enums/ink_type.dart';
 import '../../utilities/refresh.dart';
 import '../../widgets/app_inkwell.dart';
+import '../../widgets/circular_loader.dart';
 import '../../widgets/search.dart';
 import '../../widgets/small_button.dart';
 import 'components/product_card.dart';
@@ -43,7 +44,7 @@ class _ProductsViewState extends ProductsModal {
         children: [
           search,
           sortAndFilterRow,
-          isLoading ? loader : productList,
+          isLoading ? CircularLoader.expanded() : productList,
         ],
       ),
     );
@@ -144,13 +145,5 @@ class _ProductsViewState extends ProductsModal {
               ),
             ),
           );
-  }
-
-  Expanded get loader {
-    return const Expanded(
-      child: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
   }
 }
