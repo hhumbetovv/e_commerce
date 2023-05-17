@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import '../../constants/app_fonts.dart';
 import '../../constants/string_constants.dart';
 import '../../utilities/refresh.dart';
+import '../../widgets/circular_loader.dart';
 import '../../widgets/search.dart';
 import 'catalog_modal.dart';
+import 'components/add_catalog_button.dart';
 import 'components/catalog_list_tile.dart';
 
 class CatalogView extends StatefulWidget {
@@ -25,7 +27,7 @@ class _CatalogViewState extends CatalogModal {
         children: [
           title,
           search,
-          catalogList,
+          isLoading ? CircularLoader.expanded() : catalogList,
         ],
       ),
     );
@@ -65,7 +67,9 @@ class _CatalogViewState extends CatalogModal {
     return Expanded(
       child: RefreshIndicator(
         onRefresh: () async {
+          setLoading(true);
           await onPageRefresh(context, init);
+          setLoading(false);
         },
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -83,10 +87,22 @@ class _CatalogViewState extends CatalogModal {
               itemBuilder: (context, index) {
                 return CatalogListTile(
                   catalog: searchedCatalogs[index],
+                  onRefresh: () async {
+                    setLoading(true);
+                    await onPageRefresh(context, init);
+                    setLoading(false);
+                  },
                 );
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 16);
+              },
+            ),
+            AddCatalogButton(
+              onRefresh: () async {
+                setLoading(true);
+                await onPageRefresh(context, init);
+                setLoading(false);
               },
             ),
           ],
