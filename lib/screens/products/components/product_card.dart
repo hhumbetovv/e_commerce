@@ -21,7 +21,7 @@ class ProductCard extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return ProductDetailsView(product: product);
+          return ProductDetailsView(id: product.id);
         },
       ),
     );
