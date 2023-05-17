@@ -32,4 +32,13 @@ class StringConstants {
 
   static const String showProducts = 'Məhsulları göstər';
   static const String cancelText = 'Ləğv et';
+
+  static const String title = 'Başlıq';
+  static const String fromGallery = 'qalereya';
+  static const String fromCamera = 'kamera';
+  static const String upload = 'əlavə et';
+  static const String edit = 'redaktə et';
+  static const String delete = 'sil';
+
+  static const String catalogImagesPath = 'catalogImages';
 }
