@@ -8,6 +8,7 @@ import '../../cubits/catalog/catalog_cubit.dart';
 import '../../cubits/category/category_cubit.dart';
 import '../../cubits/favorite/favorite_cubit.dart';
 import '../../cubits/product/product_cubit.dart';
+import '../../widgets/circular_loader.dart';
 import '../home/home_view.dart';
 
 class SplashView extends StatefulWidget {
@@ -44,8 +45,7 @@ class _SplashViewState extends State<SplashView> {
         _productCubit.getProducts(),
         _favoriteCubit.getFavoriteProducts(),
       ]);
-      if (mounted) {}
-      if (_catalogCubit.state is CatalogError) {
+      if (mounted && _catalogCubit.state is CatalogError) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(_catalogCubit.state.toString())),
         );
@@ -109,7 +109,7 @@ class _SplashViewState extends State<SplashView> {
       duration: const Duration(milliseconds: 1500),
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: CircularProgressIndicator(
+        child: CircularLoader(
           color: ColorConstants.primary[100],
         ),
       ),
