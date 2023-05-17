@@ -1,3 +1,4 @@
+import 'package:e_commerce/screens/product_details/product_details_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,18 +9,22 @@ import '../../cubits/favorite/favorite_cubit.dart';
 import '../../enums/icons.dart';
 import '../../enums/ink_type.dart';
 import '../../extensions/text_style_extension.dart';
-import '../../models/product.dart';
 import '../../widgets/app_inkwell.dart';
 import 'components/product_image_view.dart';
 
-class ProductDetailsView extends StatelessWidget {
+class ProductDetailsView extends StatefulWidget {
   const ProductDetailsView({
-    required this.product,
+    required this.id,
     Key? key,
   }) : super(key: key);
 
-  final ProductModel product;
+  final String id;
 
+  @override
+  State<ProductDetailsView> createState() => _ProductDetailsViewState();
+}
+
+class _ProductDetailsViewState extends ProductDetailsModal {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
