@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../constants/app_fonts.dart';
 import '../../constants/string_constants.dart';
+import '../../enums/images.dart';
 import '../../utilities/refresh.dart';
 import '../../widgets/circular_loader.dart';
 import '../../widgets/search.dart';
@@ -64,50 +66,64 @@ class _CatalogViewState extends CatalogModal {
     final searchedCatalogs = catalogs.where((element) {
       return element.title.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
-    return Expanded(
-      child: RefreshIndicator(
-        onRefresh: () async {
-          setLoading(true);
-          await onPageRefresh(context, init);
-          setLoading(false);
-        },
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          children: [
-            if (searchText.isEmpty && products.isNotEmpty)
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: CatalogListTile(),
-              ),
-            ListView.separated(
-              padding: const EdgeInsets.all(16),
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              itemCount: searchedCatalogs.length,
-              itemBuilder: (context, index) {
-                return CatalogListTile(
-                  catalog: searchedCatalogs[index],
-                  onRefresh: () async {
-                    setLoading(true);
-                    await onPageRefresh(context, init);
-                    setLoading(false);
-                  },
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(height: 16);
-              },
+    return searchedCatalogs.isEmpty
+        ? Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(AppImages.dissatisfied.svg),
+                const SizedBox(height: 16),
+                Text(
+                  catalogs.isEmpty ? StringConstants.nothingYet : StringConstants.catalogNotFound,
+                  style: AppFonts.bodyLarge,
+                ),
+              ],
             ),
-            AddCatalogButton(
+          )
+        : Expanded(
+            child: RefreshIndicator(
               onRefresh: () async {
                 setLoading(true);
                 await onPageRefresh(context, init);
                 setLoading(false);
               },
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                children: [
+                  if (searchText.isEmpty && products.isNotEmpty)
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                      child: CatalogListTile(),
+                    ),
+                  ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: searchedCatalogs.length,
+                    itemBuilder: (context, index) {
+                      return CatalogListTile(
+                        catalog: searchedCatalogs[index],
+                        onRefresh: () async {
+                          setLoading(true);
+                          await onPageRefresh(context, init);
+                          setLoading(false);
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 16);
+                    },
+                  ),
+                  AddCatalogButton(
+                    onRefresh: () async {
+                      setLoading(true);
+                      await onPageRefresh(context, init);
+                      setLoading(false);
+                    },
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }

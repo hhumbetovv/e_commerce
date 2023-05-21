@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_commerce/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -9,14 +10,17 @@ import '../../constants/app_fonts.dart';
 import '../../constants/color_constants.dart';
 import '../../constants/string_constants.dart';
 import '../../enums/button_type.dart';
-import '../../extensions/text_style_extension.dart';
 import '../../models/category.dart';
 import '../../services/firebase_firestore.dart';
 import '../../services/firebase_storage.dart';
-import '../../widgets/circular_loader.dart';
 import '../../widgets/large_button.dart';
 
-Future<bool?> editCatalogModalSheet(BuildContext context, {CategoryModel? catalog}) {
+Future<bool?> editCategoryModalSheet(
+  BuildContext context, {
+  required bool isCatalog,
+  required CategoryModel parentCategory,
+  CategoryModel? category,
+}) {
   return showModalBottomSheet<bool?>(
     backgroundColor: ColorConstants.white,
     isScrollControlled: true,
@@ -29,24 +33,32 @@ Future<bool?> editCatalogModalSheet(BuildContext context, {CategoryModel? catalo
       ),
     ),
     builder: (context) {
-      return CatalogModalBody(catalog: catalog);
+      return CategoryModalBody(
+        category: category,
+        parentCategory: parentCategory,
+        isCatalog: isCatalog,
+      );
     },
   );
 }
 
-class CatalogModalBody extends StatefulWidget {
-  const CatalogModalBody({
+class CategoryModalBody extends StatefulWidget {
+  const CategoryModalBody({
     Key? key,
-    this.catalog,
+    this.category,
+    required this.parentCategory,
+    required this.isCatalog,
   }) : super(key: key);
 
-  final CategoryModel? catalog;
+  final CategoryModel? category;
+  final CategoryModel parentCategory;
+  final bool isCatalog;
 
   @override
-  State<CatalogModalBody> createState() => _CatalogModalBodyState();
+  State<CategoryModalBody> createState() => _CategoryModalBodyState();
 }
 
-class _CatalogModalBodyState extends State<CatalogModalBody> {
+class _CategoryModalBodyState extends State<CategoryModalBody> {
   String? title;
   File? image;
   bool isLoading = false;
@@ -55,7 +67,7 @@ class _CatalogModalBodyState extends State<CatalogModalBody> {
   @override
   void initState() {
     super.initState();
-    title = widget.catalog?.title;
+    title = widget.category?.title;
     titleController.text = title ?? '';
   }
 
@@ -75,7 +87,7 @@ class _CatalogModalBodyState extends State<CatalogModalBody> {
     }
   }
 
-  Future<void> uploadCatalog() async {
+  Future<void> uploadCategory() async {
     setState(() {
       isLoading = true;
     });
@@ -83,17 +95,30 @@ class _CatalogModalBodyState extends State<CatalogModalBody> {
       if (image != null && (title?.isNotEmpty ?? false)) {
         final imageUrl = await FirebaseStorageService().uploadImage(
           image!,
-          StringConstants.catalogImagesPath,
+          StringConstants.categoryImagesPath,
         );
-        final CategoryModel catalog = CategoryModel(
+        final CategoryModel category = CategoryModel(
           id: const Uuid().v1(),
           title: title!,
           imageUrl: imageUrl,
-          parentId: '',
+          parentId: widget.parentCategory.id,
           subCategories: [],
           products: [],
         );
-        await FirestoreService().setCatalog(catalog.toJson());
+        await FirestoreService().setCategory(category.toJson());
+        if (widget.isCatalog) {
+          await FirestoreService().setCatalog(
+            widget.parentCategory.copyWith(
+              subCategories: [...widget.parentCategory.subCategories, category.id],
+            ).toJson(),
+          );
+        } else {
+          await FirestoreService().setCategory(
+            widget.parentCategory.copyWith(
+              subCategories: [...widget.parentCategory.subCategories, category.id],
+            ).toJson(),
+          );
+        }
         if (mounted) Navigator.of(context).pop(true);
       }
     } catch (e) {
@@ -109,7 +134,7 @@ class _CatalogModalBodyState extends State<CatalogModalBody> {
     });
   }
 
-  Future<void> updateCatalog() async {
+  Future<void> updateCategory() async {
     setState(() {
       isLoading = true;
     });
@@ -120,13 +145,13 @@ class _CatalogModalBodyState extends State<CatalogModalBody> {
           image!,
           StringConstants.catalogImagesPath,
         );
-        await FirebaseStorageService().deleteImageByUrl(widget.catalog!.imageUrl);
+        await FirebaseStorageService().deleteImageByUrl(widget.category!.imageUrl);
       }
-      final CategoryModel updatedCatalog = widget.catalog!.copyWith(
+      final CategoryModel updatedCategory = widget.category!.copyWith(
         title: title,
         imageUrl: imageUrl,
       );
-      await FirestoreService().setCatalog(updatedCatalog.toJson());
+      await FirestoreService().setCategory(updatedCategory.toJson());
       if (mounted) Navigator.of(context).pop(true);
     } catch (e) {
       Navigator.of(context).pop(false);
@@ -153,69 +178,37 @@ class _CatalogModalBodyState extends State<CatalogModalBody> {
             card,
             titleField,
             getImageButtons,
-            uploadCatalogButton,
+            uploadButton,
           ],
         ),
       ),
     );
   }
 
-  Container get card {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 56, 16, 0),
-      height: 100,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: ColorConstants.secondary,
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: isLoading
-          ? CircularLoader.center()
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      title ?? StringConstants.title,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: AppFonts.headingSmall.copyWith(
-                        color: title?.isNotEmpty ?? false ? ColorConstants.black : ColorConstants.grey,
-                      ),
-                    ),
-                  ),
-                ),
-                AspectRatio(
-                  aspectRatio: 1,
-                  child: image != null
-                      ? Image.file(
-                          image!,
-                          fit: BoxFit.cover,
-                        )
-                      : widget.catalog != null
-                          ? CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: widget.catalog!.imageUrl,
-                              placeholder: (context, url) => CircularLoader.center(
-                                color: ColorConstants.primary[400],
-                              ),
-                              errorWidget: (context, url, error) => const Center(
-                                child: Icon(
-                                  Icons.error,
-                                  color: ColorConstants.red,
-                                  size: 32,
-                                ),
-                              ),
-                            )
-                          : Container(
-                              color: ColorConstants.primary[300],
-                            ),
-                )
-              ],
+  Padding get card {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: ColorConstants.primary[300],
+            backgroundImage: image != null
+                ? Image.file(image!, fit: BoxFit.cover).image
+                : widget.category != null
+                    ? CachedNetworkImageProvider(widget.category!.imageUrl)
+                    : null,
+            radius: 24,
+          ),
+          const SizedBox(width: 16),
+          Text(
+            title ?? StringConstants.title,
+            overflow: TextOverflow.ellipsis,
+            style: AppFonts.bodyLarge.regular.copyWith(
+              color: title?.isNotEmpty ?? false ? ColorConstants.black : ColorConstants.grey,
             ),
+          )
+        ],
+      ),
     );
   }
 
@@ -280,15 +273,15 @@ class _CatalogModalBodyState extends State<CatalogModalBody> {
     );
   }
 
-  AnimatedSwitcher get uploadCatalogButton {
+  AnimatedSwitcher get uploadButton {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: LargeButton(
           isDeactivated: isLoading,
-          text: widget.catalog != null ? StringConstants.save : StringConstants.upload,
-          onTap: widget.catalog != null ? updateCatalog : uploadCatalog,
+          text: widget.category != null ? StringConstants.save : StringConstants.upload,
+          onTap: widget.category != null ? updateCategory : uploadCategory,
           type: ButtonType.primary,
         ),
       ),

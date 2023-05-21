@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../components/dialogs/catalog_selections_dialog.dart';
+import '../../../components/dialogs/category_selections_dialog.dart';
 import '../../../components/modals/edit_catalog_modal_sheet.dart';
+import '../../../components/modals/edit_category_modal_sheet.dart';
 import '../../../constants/app_fonts.dart';
 import '../../../constants/color_constants.dart';
 import '../../../constants/string_constants.dart';
-import '../../../enums/catalog_selections.dart';
+import '../../../enums/category_selections.dart';
 import '../../../enums/images.dart';
 import '../../../enums/ink_type.dart';
 import '../../../models/category.dart';
@@ -48,6 +49,17 @@ class CatalogListTile extends StatelessWidget {
     }
   }
 
+  Future<void> addCategory(BuildContext context) async {
+    final response = await editCategoryModalSheet(context, isCatalog: true, parentCategory: catalog!);
+    if ((response ?? false) && onRefresh != null) {
+      onRefresh!();
+    }
+  }
+
+  Future<void> addProduct(BuildContext context) async {
+    // TODO: Implement Add Product Future
+  }
+
   void cardOnTap(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -69,15 +81,22 @@ class CatalogListTile extends StatelessWidget {
 
   Future<void> cardOnLongPress(BuildContext context) async {
     if (catalog != null) {
-      final CatalogSelections? response = await catalogSelectionsDialog(context, catalog!);
+      final CategorySelections? response = await categorySelectionsDialog(context, catalog!.title);
       switch (response) {
-        case CatalogSelections.delete:
+        case CategorySelections.delete:
           if (context.mounted) deleteCatalog(context);
           break;
-        case CatalogSelections.update:
+        case CategorySelections.update:
           if (context.mounted) editCatalog(context);
           break;
+        case CategorySelections.addCategory:
+          if (context.mounted) addCategory(context);
+          break;
+        case CategorySelections.addProduct:
+          // TODO: Handle this case.
+          break;
         default:
+          break;
       }
     }
   }

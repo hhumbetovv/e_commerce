@@ -8,13 +8,22 @@ import 'categories_view.dart';
 
 abstract class CategoriesModal extends State<CategoriesView> {
   String searchText = '';
+  bool isLoading = false;
   late CategoryModel category;
   late List<CategoryModel> categories;
 
   @override
   void initState() {
     super.initState();
+    setLoading(true);
     init();
+    setLoading(false);
+  }
+
+  void setLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
   }
 
   void init() {
@@ -29,7 +38,8 @@ abstract class CategoriesModal extends State<CategoriesView> {
         });
       }
       categories = (context.read<CategoryCubit>().state.props as List<CategoryModel>).where((element) {
-        return category.subCategories.isNotEmpty ? category.subCategories.contains(element.id) : true;
+        debugPrint(category.subCategories.isNotEmpty.toString());
+        return category.subCategories.isNotEmpty ? category.subCategories.contains(element.id) : false;
       }).toList();
     });
   }

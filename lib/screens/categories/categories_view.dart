@@ -4,9 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants/app_fonts.dart';
 import '../../constants/string_constants.dart';
 import '../../enums/icons.dart';
+import '../../enums/images.dart';
 import '../../enums/ink_type.dart';
 import '../../utilities/refresh.dart';
 import '../../widgets/app_inkwell.dart';
+import '../../widgets/circular_loader.dart';
 import '../../widgets/search.dart';
 import 'categories_modal.dart';
 import 'components/category_list_tile.dart';
@@ -40,7 +42,7 @@ class _CategoriesViewState extends CategoriesModal {
         children: [
           search,
           title,
-          categoryList,
+          isLoading ? CircularLoader.expanded() : categoryList,
         ],
       ),
     );
@@ -85,33 +87,54 @@ class _CategoriesViewState extends CategoriesModal {
     final searchedCategories = categories.where((element) {
       return element.title.toLowerCase().contains(searchText.toLowerCase());
     }).toList();
-
-    return Expanded(
-      child: RefreshIndicator(
-        onRefresh: () async {
-          await onPageRefresh(context, init);
-        },
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          children: [
-            if (searchText.isEmpty && category.products.isNotEmpty)
-              CategoryListTile(
-                category: category,
-                isClosed: true,
-              ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              itemCount: searchedCategories.length,
-              itemBuilder: (context, index) {
-                return CategoryListTile(
-                  category: searchedCategories[index],
-                );
-              },
+    return searchedCategories.isEmpty
+        ? Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(AppImages.dissatisfied.svg),
+                const SizedBox(height: 16),
+                Text(
+                  categories.isEmpty ? StringConstants.nothingYet : StringConstants.categoryNotFound,
+                  style: AppFonts.bodyLarge,
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await onPageRefresh(context, init);
+              },
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                children: [
+                  if (searchText.isEmpty && category.products.isNotEmpty)
+                    CategoryListTile(
+                      category: category,
+                      parentCategory: category,
+                      isClosed: true,
+                    ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: searchedCategories.length,
+                    itemBuilder: (context, index) {
+                      return CategoryListTile(
+                        category: searchedCategories[index],
+                        parentIsCatalog: widget.isCatalog,
+                        parentCategory: category,
+                        onRefresh: () async {
+                          setLoading(true);
+                          await onPageRefresh(context, init);
+                          setLoading(false);
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }

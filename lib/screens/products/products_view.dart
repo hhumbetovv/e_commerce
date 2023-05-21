@@ -115,7 +115,7 @@ class _ProductsViewState extends ProductsModal {
                 SvgPicture.asset(AppImages.dissatisfied.svg),
                 const SizedBox(height: 16),
                 Text(
-                  StringConstants.notFound,
+                  products.isEmpty ? StringConstants.nothingYet : StringConstants.productNotFound,
                   style: AppFonts.bodyLarge,
                 ),
               ],

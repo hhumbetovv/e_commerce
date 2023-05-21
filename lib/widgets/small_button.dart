@@ -15,6 +15,7 @@ class SmallButton extends StatelessWidget {
     this.isFullWidth = false,
     this.icon,
     this.style,
+    this.isDeactivated = false,
   }) : super(key: key);
 
   final String text;
@@ -23,18 +24,19 @@ class SmallButton extends StatelessWidget {
   final ButtonType type;
   final String? icon;
   final TextStyle? style;
+  final bool isDeactivated;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       child: AppInkWell(
-        onTap: onTap,
+        onTap: isDeactivated ? null : onTap,
         type: type.inkType,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7.5),
           width: isFullWidth ? double.maxFinite : null,
           decoration: BoxDecoration(
-            color: type.color,
+            color: isDeactivated ? type.deactiveColor : type.color,
             borderRadius: BorderRadius.circular(4),
             border: type.isBordered ? Border.all(color: ColorConstants.black) : null,
           ),

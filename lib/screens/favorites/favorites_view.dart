@@ -156,7 +156,7 @@ class _FavoritesViewState extends FavoritesModal {
                 SvgPicture.asset(AppImages.dissatisfied.svg),
                 const SizedBox(height: 16),
                 Text(
-                  StringConstants.notFound,
+                  StringConstants.productNotFound,
                   style: AppFonts.bodyLarge,
                 ),
               ],

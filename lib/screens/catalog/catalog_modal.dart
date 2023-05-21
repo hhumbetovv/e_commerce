@@ -16,7 +16,9 @@ abstract class CatalogModal extends State<CatalogView> {
   @override
   void initState() {
     super.initState();
+    setLoading(true);
     init();
+    setLoading(false);
   }
 
   void setLoading(bool value) {
@@ -26,12 +28,10 @@ abstract class CatalogModal extends State<CatalogView> {
   }
 
   void init() {
-    setLoading(true);
     setState(() {
       catalogs = context.read<CatalogCubit>().state.props as List<CategoryModel>;
       products = context.read<ProductCubit>().state.props as List<ProductModel>;
       isLoading = false;
     });
-    setLoading(false);
   }
 }
