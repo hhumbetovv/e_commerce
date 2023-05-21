@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:e_commerce/extensions/text_style_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -10,6 +9,7 @@ import '../../constants/app_fonts.dart';
 import '../../constants/color_constants.dart';
 import '../../constants/string_constants.dart';
 import '../../enums/button_type.dart';
+import '../../extensions/text_style_extension.dart';
 import '../../models/category.dart';
 import '../../services/firebase_firestore.dart';
 import '../../services/firebase_storage.dart';
